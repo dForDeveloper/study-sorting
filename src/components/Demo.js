@@ -8,7 +8,8 @@ class Demo extends Component {
     this.state = {
       boxIds: [5, 7, 3, 8, 1, 4 ,6, 2],
       i: 0,
-      currentPass: 1
+      iteration: 0,
+      action: ''
     };
   }
 
@@ -20,13 +21,35 @@ class Demo extends Component {
     }
   }
 
-  setBoxesToCompare = () => {
-    return true;
+  startAlgorithm = () => {
+    this.setState({
+      iteration: 1,
+      action: 'compare'
+    })
+  }
+
+  goForward = () => {
+    const { i, iteration, boxIds, action } = this.state;
+    const n = boxIds.length - 1;
+    if (i === n - iteration) {
+      this.setState({
+        iteration: iteration + 1,
+        i: 0
+      });
+    } else if (action === 'swap') {
+      this.setState({
+        action: 'compare',
+        i: i + 1
+      });
+    } else {
+      this.setState({ action: 'swap' });
+    }
   }
 
   render() {
-    let { boxIds, i } = this.state;
-    let randomBoxes = boxIds.map((num, index) => {
+    const { boxIds, i , iteration } = this.state;
+    const showStartButton = iteration === 0 ? true : false;
+    const randomBoxes = boxIds.map((num, index) => {
       return (
         <Box
           id={num}
@@ -43,26 +66,40 @@ class Demo extends Component {
         <div className="algorithm">
           {randomBoxes}
         </div>
-        <footer className="footer">
-          <button
-            className="footer--btn footer--btn-back"
-            onClick={() => true}
-          >
-            back
-          </button>
-          <button
-            className="footer--btn footer--btn-replay"
-            onClick={() => true}
-          >
-            replay
-          </button>
-          <button
-            className="footer--btn footer--btn-next"
-            onClick={this.setBoxesToCompare}
-          >
-            next
-          </button>
-        </footer>
+          {showStartButton && 
+            <footer className="footer">
+              <button
+                className="footer--btn footer--btn-start"
+                onClick={this.startAlgorithm}
+              >
+                start
+              </button>
+            </footer>
+          }
+          {!showStartButton && 
+            <footer className="footer">
+              <button
+                className="footer--btn footer--btn-back"
+                onClick={() => true}
+              >
+                back
+              </button>
+              <button
+                className="footer--btn footer--btn-replay"
+                onClick={() => true}
+              >
+                replay
+              </button>
+              <button
+              className="footer--btn footer--btn-next"
+              onClick={this.goForward}
+              >
+                next
+              </button>
+            </footer>
+          }
+            
+        
       </section>
     );
   }

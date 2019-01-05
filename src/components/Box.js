@@ -3,7 +3,7 @@ import '../styles/main.scss';
 
 class Box extends Component {
   render() {
-    let { id, index , i } = this.props;
+    const { id, index , i } = this.props;
     let divClass;
     switch (index) {
       case i:
