@@ -3,14 +3,17 @@ import '../styles/main.scss';
 
 class Box extends Component {
   render() {
-    const { id, index , i } = this.props;
+    const { id, index , i, action, boxIds } = this.props;
+    const shouldSwap = boxIds[i] > boxIds[i + 1];
     let divClass;
+    const iClass = action === 'swap' && shouldSwap ? 'right-swap' : 'compare';
+    const jClass = action === 'swap' && shouldSwap ? 'left-swap' : 'compare';
     switch (index) {
       case i:
-        divClass = 'Box highlight';
+        divClass = `Box ${iClass} Box-underlined`;
         break;
       case i + 1:
-        divClass = 'Box highlight';
+        divClass = `Box ${jClass}`;
         break;
       default:
         divClass = 'Box';

@@ -31,14 +31,18 @@ class Demo extends Component {
   goForward = () => {
     const { i, iteration, boxIds, action } = this.state;
     const n = boxIds.length - 1;
-    if (i === n - iteration) {
+    if (i === n - iteration && action === 'swap') {
+      const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
         iteration: iteration + 1,
+        boxIds: newBoxIds,
         i: 0
       });
     } else if (action === 'swap') {
+      const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
         action: 'compare',
+        boxIds: newBoxIds,
         i: i + 1
       });
     } else {
@@ -46,8 +50,15 @@ class Demo extends Component {
     }
   }
 
+  swapNumbers = (boxIds, i) => {
+    if (boxIds[i] > boxIds[i + 1]) {
+      [boxIds[i], boxIds[i + 1]] = [boxIds[i + 1], boxIds[i]]; 
+    }
+    return boxIds;
+  }
+
   render() {
-    const { boxIds, i , iteration } = this.state;
+    const { boxIds, i , iteration, action } = this.state;
     const showStartButton = iteration === 0 ? true : false;
     const randomBoxes = boxIds.map((num, index) => {
       return (
@@ -55,6 +66,8 @@ class Demo extends Component {
           id={num}
           index={index}
           i={i}
+          action={action}
+          boxIds={boxIds}
           key={num}
         />
       );
