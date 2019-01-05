@@ -1,32 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Buttons should match the snapshot 1`] = `
-<footer
-  className="footer"
->
-  <div>
-    <button
-      className="footer--btn"
-      onClick={[Function]}
-    >
-      back
-    </button>
-    <button
-      className="footer--btn"
-      onClick={[Function]}
-    >
-      replay
-    </button>
-    <button
-      className="footer--btn"
-      onClick={[MockFunction]}
-    >
-      next
-    </button>
-  </div>
-</footer>
-`;
-
 exports[`Buttons should match the snapshot when is showStartButton is false 1`] = `
 <footer
   className="footer"
