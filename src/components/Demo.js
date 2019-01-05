@@ -64,20 +64,26 @@ class Demo extends Component {
     if (action === 'swap') {
       return (
         <div>
-          <p>{boxIds[i]} swaps with {boxIds[i + 1]}</p>
+          <p>
+            <span>{boxIds[i]}</span> swaps with <span>{boxIds[i + 1]}</span>
+          </p>
         </div>
       );
     } else if (action === 'compare' && boxIds[i] < boxIds[i + 1]) {
       return (
         <div>
-          <p>compare {boxIds[i]} and {boxIds[i + 1]}</p>
-          <p>they do not need to swap</p>
+          <p>
+            compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
+          </p>
+          <p>they are in order</p>
         </div>
       );
     } else if (action === 'compare') {
       return (
         <div>
-          <p>compare {boxIds[i]} and {boxIds[i + 1]}</p>
+          <p>
+            compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
+          </p>
           <p>they are out of order</p>
         </div>
       );
@@ -100,7 +106,7 @@ class Demo extends Component {
         action: '',
         iteration: boxIds.length + 1
       });
-    } else if (iteration >= n && shouldSwap) {
+    } else if ((iteration >= n || action === 'compare') && shouldSwap) {
       this.setState({
         action: 'swap'
       });
@@ -125,10 +131,6 @@ class Demo extends Component {
         boxIds: newBoxIds,
         i: i + 1
       });
-    } else if (action === 'compare' && shouldSwap) {
-      this.setState({
-        action: 'swap'
-      });
     } else {
       this.setState({
         i: i + 1
@@ -150,11 +152,11 @@ class Demo extends Component {
     return (
       <section className="Demo">
         <h2 className="Demo--h2">Bubble Sort</h2>
-        <div>{explanation}</div>
+        <div className="explanation">{explanation}</div>
         <div className="algorithm">
           {randomBoxes}
           {this.state.boxIds.map((num, index) => {
-            const spanClass = index === this.state.i ?
+            const spanClass = index === this.state.i || index === this.state.i + 1 ?
               'algorithm--span algorithm--span-underline' : 'algorithm--span';
             return <span id={index} className={spanClass} key={num}></span>
           })
