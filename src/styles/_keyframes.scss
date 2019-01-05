@@ -1,36 +1,47 @@
 @keyframes right-swap {
   0% {
     transform: translateY(0px);
+    background-color: $unsorted-pink;
   }
   33% {
     transform: translateY(-120px);
+  }
+  42% {
+    background-color: $unsorted-pink;
   }
   67% {
     transform: translate(111%, -120px);
   }
   100% {
     transform: translate(111%);
+    background-color: $sorted-green;
+
   }
 }
 
 @keyframes left-swap {
   0% {
     transform: translateY(0px);
+    background-color: $unsorted-pink;
   }
   33% {
     transform: translateY(-120px);
+  }
+  42% {
+    background-color: $unsorted-pink;
   }
   67% {
     transform: translate(-111%, -120px);
   }
   100% {
     transform: translate(-111%);
+    background-color: $sorted-green;
   }
 }
 
 @keyframes sorted {
   0% {
-    background-color: lightgray;
+    background-color: $compare-blue;
   }
   50% {
     background-color: $compare-blue;
@@ -42,9 +53,12 @@
 
 @keyframes unsorted {
   0% {
-    background-color: lightgray;
+    background-color: $compare-blue;
+  }
+  50% {
+    background-color: $compare-blue;
   }
   100% {
-    background-color: $compare-blue;
+    background-color: $unsorted-pink;
   }
 }
