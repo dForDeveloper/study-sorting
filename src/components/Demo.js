@@ -6,18 +6,23 @@ class Demo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      boxIds: [5, 7, 3, 8, 1, 4 ,6, 2],
+      boxIds: [],
       i: 0,
       iteration: 0,
       action: ''
     };
   }
 
+  componentDidMount = () => {
+    const boxIds = [1, 2, 3, 4, 5, 6, 7, 8];
+    this.fisherYatesShuffle(boxIds);
+    this.setState({ boxIds });
+  }
+
   fisherYatesShuffle = (arr) => {
     for (let i = 0; i < arr.length - 1; i++) {
       const randomIndex = Math.floor((Math.random() * (arr.length - i))) + i;
       [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
-      return arr;
     }
   }
 
@@ -64,10 +69,14 @@ class Demo extends Component {
     const { i, iteration, boxIds, action } = this.state;
     const n = boxIds.length - 1;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
-    if (iteration >= n) {
+    if (iteration >= n && !shouldSwap) {
       this.setState({
         action: '',
         iteration: boxIds.length + 1
+      });
+    } else if (iteration >= n && shouldSwap) {
+      this.setState({
+        action: 'swap'
       });
     } else if (i === n - iteration && action === 'swap') {
       const newBoxIds = this.swapNumbers(boxIds, i);
@@ -77,6 +86,12 @@ class Demo extends Component {
         action: 'compare',
         i: 0
       });
+    } else if (i === n - iteration && action === 'compare' && !shouldSwap) {
+        this.setState({
+          iteration: iteration + 1,
+          action: 'compare',
+          i: 0
+        });
     } else if (action === 'swap') {
       const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
