@@ -1,0 +1,38 @@
+@keyframes right-swap {
+  0% {
+    transform: translateY(0px);
+  }
+  33% {
+    transform: translateY(-120px);
+  }
+  67% {
+    transform: translate(111%, -120px);
+  }
+  100% {
+    transform: translate(111%);
+  }
+}
+
+@keyframes left-swap {
+  0% {
+    transform: translateY(0px);
+  }
+  33% {
+    transform: translateY(-120px);
+  }
+  67% {
+    transform: translate(-111%, -120px);
+  }
+  100% {
+    transform: translate(-111%);
+  }
+}
+
+@keyframes highlight {
+  0% {
+    background-color: lightgray;
+  }
+  100% {
+    background-color: $compare-blue;
+  }
+}

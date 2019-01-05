@@ -13,40 +13,14 @@
   font-size: 3rem;
 }
 
+.highlight {
+  animation: highlight .5s ease-out normal forwards; 
+}
+
 .right-swap {
   animation: right-swap 3s ease-out normal forwards; 
 }
 
 .left-swap {
   animation: left-swap 3s ease-out normal forwards; 
-}
-
-@keyframes right-swap {
-  0% {
-    transform: translateY(0px);
-  }
-  33% {
-    transform: translateY(-120px);
-  }
-  67% {
-    transform: translate(111%, -120px);
-  }
-  100% {
-    transform: translate(111%);
-  }
-}
-
-@keyframes left-swap {
-  0% {
-    transform: translateY(0px);
-  }
-  33% {
-    transform: translateY(-120px);
-  }
-  67% {
-    transform: translate(-111%, -120px);
-  }
-  100% {
-    transform: translate(-111%);
-  }
 }

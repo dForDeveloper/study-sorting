@@ -3,12 +3,18 @@ import '../styles/main.scss';
 
 class Box extends Component {
   render() {
-    let { id, index } = this.props;
-    let divClass = 'Box';
-    if (index === 0) {
-      divClass += ' right-swap';
-    } else if (index === 1) {
-      divClass += ' left-swap';
+    let { id, index , i } = this.props;
+    let divClass;
+    switch (index) {
+      case i:
+        divClass = 'Box highlight';
+        break;
+      case i + 1:
+        divClass = 'Box highlight';
+        break;
+      default:
+        divClass = 'Box';
+        break;
     }
     return (
       <div className={divClass}>
