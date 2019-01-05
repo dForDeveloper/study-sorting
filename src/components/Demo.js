@@ -31,11 +31,15 @@ class Demo extends Component {
   goForward = () => {
     const { i, iteration, boxIds, action } = this.state;
     const n = boxIds.length - 1;
-    if (i === n - iteration && action === 'swap') {
+    const shouldSwap = boxIds[i] > boxIds[i + 1]
+    if (iteration === n) {
+      this.setState({ action: '' });
+    } else if (i === n - iteration && action === 'swap') {
       const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
         iteration: iteration + 1,
         boxIds: newBoxIds,
+        action: 'compare',
         i: 0
       });
     } else if (action === 'swap') {
@@ -45,8 +49,10 @@ class Demo extends Component {
         boxIds: newBoxIds,
         i: i + 1
       });
-    } else {
+    } else if (action === 'compare' && shouldSwap) {
       this.setState({ action: 'swap' });
+    } else {
+      this.setState({ i: i + 1 });
     }
   }
 

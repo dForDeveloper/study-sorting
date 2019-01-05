@@ -28,7 +28,19 @@
   }
 }
 
-@keyframes compare {
+@keyframes sorted {
+  0% {
+    background-color: lightgray;
+  }
+  50% {
+    background-color: $compare-blue;
+  }
+  100% {
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes unsorted {
   0% {
     background-color: lightgray;
   }

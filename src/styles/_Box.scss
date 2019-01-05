@@ -17,14 +17,18 @@
   border-bottom: 4px solid red;
 }
 
-.compare {
-  animation: compare .5s ease-out normal forwards; 
+.sorted {
+  animation: sorted 1s ease-out normal forwards; 
+}
+
+.unsorted {
+  animation: unsorted .5s ease-out normal forwards; 
 }
 
 .right-swap {
-  animation: right-swap 3s ease-out normal forwards; 
+  animation: right-swap 1.2s ease-out normal forwards; 
 }
 
 .left-swap {
-  animation: left-swap 3s ease-out normal forwards; 
+  animation: left-swap 1.2s ease-out normal forwards; 
 }

@@ -5,9 +5,17 @@ class Box extends Component {
   render() {
     const { id, index , i, action, boxIds } = this.props;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
-    let divClass;
-    const iClass = action === 'swap' && shouldSwap ? 'right-swap' : 'compare';
-    const jClass = action === 'swap' && shouldSwap ? 'left-swap' : 'compare';
+    let [divClass, iClass, jClass] = ['', '', ''];
+    if (action === 'swap' && shouldSwap) {
+      iClass = 'right-swap';
+      jClass = 'left-swap';
+    } else if (action === 'compare' && shouldSwap) {
+      iClass = 'unsorted';
+      jClass= 'unsorted';
+    } else if (action === 'compare' && !shouldSwap) {
+      iClass = 'sorted';
+      jClass= 'sorted';
+    }
     switch (index) {
       case i:
         divClass = `Box ${iClass} Box-underlined`;
