@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/main.scss';
 import Box from './Box';
+import Buttons from './Buttons';
 
 class Demo extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class Demo extends Component {
       boxIds: [],
       i: 0,
       iteration: 0,
-      action: ''
+      action: '',
+      explanation: ''
     };
   }
 
@@ -114,8 +116,7 @@ class Demo extends Component {
   }
 
   render() {
-    const { boxIds, iteration } = this.state;
-    const showStartButton = iteration === 0 ? true : false;
+    const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
     return (
       <section className="Demo">
@@ -123,47 +124,18 @@ class Demo extends Component {
         <p>explanation of step</p>
         <div className="algorithm">
           {randomBoxes}
-          {boxIds.map((num, index) => {
+          {this.state.boxIds.map((num, index) => {
             const spanClass = index === this.state.i ?
               'algorithm--span algorithm--span-underline' : 'algorithm--span';
             return <span id={index} className={spanClass} key={num}></span>
           })
           }
         </div>
-          {showStartButton && 
-            <footer className="footer">
-              <button
-                className="footer--btn footer--btn-start"
-                onClick={this.startAlgorithm}
-              >
-                start
-              </button>
-            </footer>
-          }
-          {!showStartButton && 
-            <footer className="footer">
-              <button
-                className="footer--btn footer--btn-back"
-                onClick={() => true}
-              >
-                back
-              </button>
-              <button
-                className="footer--btn footer--btn-replay"
-                onClick={() => true}
-              >
-                replay
-              </button>
-              <button
-              className="footer--btn footer--btn-next"
-              onClick={this.goForward}
-              >
-                next
-              </button>
-            </footer>
-          }
-            
-        
+        <Buttons
+          showStartButton={showStartButton}
+          startAlgorithm={this.startAlgorithm}
+          goForward={this.goForward}
+        />
       </section>
     );
   }
