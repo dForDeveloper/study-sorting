@@ -2,10 +2,26 @@
   border: 2px solid black;
   margin: 0 10%;
   padding: 10px;
+  height: 500px;
+  display: grid;
+  grid-template-rows: 100px 50px 1fr 50px;
+}
+
+.Demo--h2 {
+  font-size: 2rem;
 }
 
 .algorithm {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   justify-content: space-around;
+}
+
+.footer--btn {
+  height: 30px;
+  width: 100px;
+  background-color: lightgray;
+  border: 2px solid black;
+  margin: 0 20px;
+  border-radius: 15px;
 }

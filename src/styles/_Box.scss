@@ -4,4 +4,11 @@
   background-color: lightgray;
   border: 2px solid black;
   margin: auto;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.Box--id {
+  font-size: 3rem;
 }

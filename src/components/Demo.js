@@ -22,11 +22,16 @@ class Demo extends Component {
     });
     return (
       <div className="Demo">
-        <h2>Bubble Sort</h2>
+        <h2 className="Demo--h2">Bubble Sort</h2>
         <p>explanation of step</p>
         <div className="algorithm">
           {randomBoxes}
         </div>
+        <footer className="footer">
+          <button className="footer--btn footer--btn-back">back</button>
+          <button className="footer--btn footer--btn-replay">replay</button>
+          <button className="footer--btn footer--btn-next">next</button>
+        </footer>
       </div>
     );
   }
