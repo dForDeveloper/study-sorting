@@ -11,7 +11,6 @@ class Demo extends Component {
       i: 0,
       iteration: 0,
       action: '',
-      explanation: ''
     };
   }
 
@@ -60,11 +59,36 @@ class Demo extends Component {
     return [iClass, jClass];
   }
 
+  getExplanation = () => {
+    const { boxIds, action, i } = this.state;
+    if (action === 'swap') {
+      return (
+        <div>
+          <p>{boxIds[i]} swaps with {boxIds[i + 1]}</p>
+        </div>
+      );
+    } else if (action === 'compare' && boxIds[i] < boxIds[i + 1]) {
+      return (
+        <div>
+          <p>compare {boxIds[i]} and {boxIds[i + 1]}</p>
+          <p>they do not need to swap</p>
+        </div>
+      );
+    } else if (action === 'compare') {
+      return (
+        <div>
+          <p>compare {boxIds[i]} and {boxIds[i + 1]}</p>
+          <p>they are out of order</p>
+        </div>
+      );
+    }
+  }
+
   startAlgorithm = () => {
     this.setState({
       iteration: 1,
       action: 'compare'
-    })
+    });
   }
 
   goForward = () => {
@@ -89,11 +113,11 @@ class Demo extends Component {
         i: 0
       });
     } else if (i === n - iteration && action === 'compare' && !shouldSwap) {
-        this.setState({
-          iteration: iteration + 1,
-          action: 'compare',
-          i: 0
-        });
+      this.setState({
+        iteration: iteration + 1,
+        action: 'compare',
+        i: 0
+      });
     } else if (action === 'swap') {
       const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
@@ -102,9 +126,13 @@ class Demo extends Component {
         i: i + 1
       });
     } else if (action === 'compare' && shouldSwap) {
-      this.setState({ action: 'swap' });
+      this.setState({
+        action: 'swap'
+      });
     } else {
-      this.setState({ i: i + 1 });
+      this.setState({
+        i: i + 1
+      });
     }
   }
 
@@ -118,10 +146,11 @@ class Demo extends Component {
   render() {
     const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
+    const explanation = this.getExplanation();
     return (
       <section className="Demo">
         <h2 className="Demo--h2">Bubble Sort</h2>
-        <p>explanation of step</p>
+        <div>{explanation}</div>
         <div className="algorithm">
           {randomBoxes}
           {this.state.boxIds.map((num, index) => {
