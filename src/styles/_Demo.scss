@@ -1,0 +1,11 @@
+.Demo {
+  border: 2px solid black;
+  margin: 0 10%;
+  padding: 10px;
+}
+
+.algorithm {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  justify-content: space-around;
+}
