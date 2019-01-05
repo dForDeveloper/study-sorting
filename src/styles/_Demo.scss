@@ -18,6 +18,15 @@
   align-content: end;
 }
 
+.algorithm--span {
+  width: 90%;
+  margin: 0 auto 10px;
+}
+
+.algorithm--span-underline {
+  border-top: 4px solid $compare-blue;
+}
+
 .footer--btn {
   height: 30px;
   width: 100px;

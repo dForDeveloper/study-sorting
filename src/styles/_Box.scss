@@ -3,7 +3,7 @@
   width: 90%;
   background-color: lightgray;
   border: 2px solid black;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
   display: grid;
   justify-content: center;
   align-content: center;
@@ -13,8 +13,8 @@
   font-size: 3rem;
 }
 
-.Box-underlined {
-  border-bottom: 4px solid red;
+.Box-final-position {
+  background-color: $sorted-green;
 }
 
 .sorted {
