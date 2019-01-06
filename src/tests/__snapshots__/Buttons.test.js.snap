@@ -19,7 +19,6 @@ exports[`Buttons should match the snapshot when is showStartButton is false 1`] 
     </button>
     <button
       className="footer--btn"
-      onClick={[MockFunction]}
     >
       next
     </button>

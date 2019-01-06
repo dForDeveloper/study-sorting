@@ -64,7 +64,7 @@ class Demo extends Component {
     });
   }
 
-  goForward = () => {
+  nextBubbleStep = () => {
     const { i, iteration, boxIds, action } = this.state;
     const n = boxIds.length - 1;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
@@ -152,7 +152,7 @@ class Demo extends Component {
             let spanClass = 'algorithm--span';
             if (this.state.action !== '' &&
                 (index === this.state.i || index === this.state.i + 1)) {
-              spanClass += ' algorithm--span-underline';
+              spanClass = 'algorithm--span-underline';
             }
             return <span id={index} className={spanClass} key={num}></span>
           })}
@@ -160,7 +160,7 @@ class Demo extends Component {
         <Buttons
           showStartButton={showStartButton}
           startAlgorithm={this.startAlgorithm}
-          goForward={this.goForward}
+          nextBubbleStep={this.nextBubbleStep}
         />
       </section>
     );

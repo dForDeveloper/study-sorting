@@ -19,7 +19,7 @@ function Buttons(props) {
           <button className="footer--btn" onClick={() => true}>
             replay
           </button>
-          <button className="footer--btn" onClick={props.goForward}>
+          <button className="footer--btn" onClick={props.nextBubbleStep}>
             next
           </button>
         </div>
