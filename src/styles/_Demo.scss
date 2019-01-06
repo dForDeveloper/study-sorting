@@ -1,8 +1,8 @@
 .Demo {
+  grid-column: 2/3;
   border: 2px solid black;
   border-radius: 20px;
   box-shadow: 0 0 6px 1px darkgrey;
-  margin: 0 10%;
   padding: 10px;
   height: 500px;
   display: grid;
@@ -28,4 +28,16 @@
 
 .algorithm--span-underline {
   background-color: $compare-blue;
+}
+
+.slide-from-left {
+  animation: slide-from-left .8s ease-out normal forwards; 
+}
+
+.slide-from-right {
+  animation: slide-from-right .8s ease-out normal forwards; 
+}
+
+.fade-in {
+  animation: fade-in 1s ease-in-out normal forwards;
 }

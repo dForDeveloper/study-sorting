@@ -135,8 +135,8 @@ class Demo extends Component {
     const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
     return (
-      <section className="Demo">
-        <h2 className="Demo--h2">Bubble Sort</h2>
+      <section className='Demo fade-in'>
+        <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
           {this.state.action !== '' &&
             <Explanation 

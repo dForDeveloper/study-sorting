@@ -5,3 +5,35 @@
 .App--h1 {
   font-size: 5rem;
 }
+
+.main {
+  display: grid;
+  grid-template-columns: 10% 1fr 10%;
+}
+
+.main--arrow {
+  height: 100px;
+  width: 100px;
+  justify-self: center;
+  align-self: center;
+  cursor: pointer;
+  animation: fade-in 1s ease-in-out normal forwards;
+}
+
+.main--right-arrow {
+  @extend .main--arrow;
+  background: center / contain no-repeat url('../right_arrow.svg');
+  
+  &:hover {
+    background: center / contain no-repeat url('../right_arrow_hover.svg');
+  }
+}
+
+.main--left-arrow {
+  @extend .main--arrow;
+  background: center / contain no-repeat url('../left_arrow.svg');
+  
+  &:hover {
+    background: center / contain no-repeat url('../left_arrow_hover.svg');
+  }
+}
