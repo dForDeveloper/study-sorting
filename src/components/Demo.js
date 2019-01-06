@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/main.scss';
 import Box from './Box';
 import Buttons from './Buttons';
+import Explanation from './Explanation';
 
 class Demo extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class Demo extends Component {
     return boxIds.map((num, index) => {
       let divClass = 'Box ';
       if (index >= boxIds.length - iteration + 1) {
-        divClass = 'Box Box-final-position';
+        divClass += 'Box-final-position';
       } else if (index === i) {
         divClass += iClass;
       } else if (index === i + 1) {
@@ -45,48 +46,14 @@ class Demo extends Component {
   }
 
   getClassNames = (action, shouldSwap) => {
-    let iClass, jClass;
     if (action === 'swap' && shouldSwap) {
-      iClass = 'right-swap';
-      jClass = 'left-swap';
+      return ['right-swap', 'left-swap'];
     } else if (action === 'compare' && shouldSwap) {
-      iClass = 'unsorted';
-      jClass= 'unsorted';
+      return ['unsorted', 'unsorted'];
     } else if (action === 'compare' && !shouldSwap) {
-      iClass = 'sorted';
-      jClass= 'sorted';
-    }
-    return [iClass, jClass];
-  }
-
-  getExplanation = () => {
-    const { boxIds, action, i } = this.state;
-    if (action === 'swap') {
-      return (
-        <div>
-          <p>
-            <span>{boxIds[i]}</span> swaps with <span>{boxIds[i + 1]}</span>
-          </p>
-        </div>
-      );
-    } else if (action === 'compare' && boxIds[i] < boxIds[i + 1]) {
-      return (
-        <div>
-          <p>
-            compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
-          </p>
-          <p>they are in order</p>
-        </div>
-      );
-    } else if (action === 'compare') {
-      return (
-        <div>
-          <p>
-            compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
-          </p>
-          <p>they are out of order</p>
-        </div>
-      );
+      return ['sorted', 'sorted'];
+    } else {
+      return ['', ''];
     }
   }
 
@@ -102,15 +69,26 @@ class Demo extends Component {
     const n = boxIds.length - 1;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
     if (iteration >= n && !shouldSwap) {
+      console.log('sorting complete, if 1')
       this.setState({
         action: '',
         iteration: boxIds.length + 1
       });
-    } else if ((iteration >= n || action === 'compare') && shouldSwap) {
+    } else if (iteration >= n && action === 'swap') {
+      console.log(('else if 1'))
+      const newBoxIds = this.swapNumbers(boxIds, i);
+      this.setState({
+        action: '',
+        boxIds: newBoxIds,
+        iteration: boxIds.length + 1
+      });
+    } else if (iteration >= n && shouldSwap) {
+      console.log('else if 2')
       this.setState({
         action: 'swap'
       });
     } else if (i === n - iteration && action === 'swap') {
+      console.log('else if 3')
       const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
         iteration: iteration + 1,
@@ -119,12 +97,19 @@ class Demo extends Component {
         i: 0
       });
     } else if (i === n - iteration && action === 'compare' && !shouldSwap) {
+      console.log('else if 4')
       this.setState({
         iteration: iteration + 1,
         action: 'compare',
         i: 0
       });
+    } else if (action === 'compare' && shouldSwap) {
+      console.log('else if 5')
+      this.setState({
+        action: 'swap'
+      });
     } else if (action === 'swap') {
+      console.log('else if 6')
       const newBoxIds = this.swapNumbers(boxIds, i);
       this.setState({
         action: 'compare',
@@ -132,6 +117,7 @@ class Demo extends Component {
         i: i + 1
       });
     } else {
+      console.log('else')
       this.setState({
         i: i + 1
       });
@@ -148,19 +134,28 @@ class Demo extends Component {
   render() {
     const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
-    const explanation = this.getExplanation();
     return (
       <section className="Demo">
         <h2 className="Demo--h2">Bubble Sort</h2>
-        <div className="explanation">{explanation}</div>
+        <div className="explanation">
+          {this.state.action !== '' &&
+            <Explanation 
+              boxIds={this.state.boxIds}
+              action={this.state.action}
+              i={this.state.i}
+            />
+          }
+        </div>
         <div className="algorithm">
           {randomBoxes}
           {this.state.boxIds.map((num, index) => {
-            const spanClass = index === this.state.i || index === this.state.i + 1 ?
-              'algorithm--span algorithm--span-underline' : 'algorithm--span';
+            let spanClass = 'algorithm--span';
+            if (this.state.action !== '' &&
+                (index === this.state.i || index === this.state.i + 1)) {
+              spanClass += ' algorithm--span-underline';
+            }
             return <span id={index} className={spanClass} key={num}></span>
-          })
-          }
+          })}
         </div>
         <Buttons
           showStartButton={showStartButton}
