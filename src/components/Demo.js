@@ -12,6 +12,8 @@ class Demo extends Component {
       i: 0,
       iteration: 0,
       action: '',
+      allSteps: [],
+      currentStep: null
     };
   }
 
@@ -28,6 +30,16 @@ class Demo extends Component {
     }
   }
 
+  removeDuplicateIds = (arr) => {
+    let [...boxIds] = arr;
+    for (let i = 0; i < boxIds.length - 1; i++) {
+      if (boxIds[i] === boxIds[i + 1]) {
+        boxIds[i] = null;
+      }
+    }
+    return boxIds;
+  }
+
   getBoxes = () => {
     const { i, iteration, boxIds, action } = this.state;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
@@ -40,6 +52,8 @@ class Demo extends Component {
         divClass += iClass;
       } else if (index === i + 1) {
         divClass += jClass;
+      } else if (num === null) {
+        divClass = 'Box-empty'
       }
       return <Box id={num} divClass={divClass} key={num}/>;
     });
@@ -65,10 +79,74 @@ class Demo extends Component {
   }
 
   startInsertionSort = () => {
-    console.log('startInsertionSort')
+    const [...boxIds] = this.state.boxIds;
+    let step = 0;
+    const allSteps = [];
+    allSteps.push({ boxIds: [...boxIds], step, action: '' })
+    for(let i = 0; i < boxIds.length; i++) {
+      let temp = boxIds[i];
+      let j = i - 1;
+      step++;
+      console.log(`${step}: examine ${boxIds[i]} and compare it with each element on its left.\nstop at the first element less than ${boxIds[i]}\n`)
+      allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'examine', temp });
+      if(j === -1) {
+        step++;
+        console.log(`${step}: there is nothing to the left of ${boxIds[i]}\n`)
+        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'leftmost', temp });
+      } else {
+        step++
+        console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
+        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'compare', temp });
+        if(j >= 0 && boxIds[j] < temp) {
+          step++
+          console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
+          allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'stop', temp });
+        }
+      }
+      while(j >= 0 && boxIds[j] > temp) {
+        step++;
+        console.log(`${step}: ${boxIds[j]} is greater than ${temp}\n`)
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'greater', temp });
+        boxIds[j + 1] = boxIds[j];
+        step++;
+        console.log(`${step}: ${boxIds[j]} shifts to the right\n`)
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'shift', temp });
+        j--;
+        if(j === -1) {
+          step++;
+          console.log(`${step}: there is nothing to the left of ${temp}\n`)
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'leftmost', temp });
+        } else {
+          step++;
+          console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'compare', temp });
+          if(j >= 0 && boxIds[j] < temp) {
+          step++
+          console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'stop', temp });
+          }
+        }
+      }
+      if(boxIds[j + 1] !== temp) {
+        step++
+        console.log(`${step}: ${temp} is inserted here\n`)
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'insert', temp });
+      }
+      boxIds[j + 1] = temp;
+      if(i + 1 !== boxIds.length) {
+        step++;
+        console.log(`${step}: move to the next element\n\n`)
+        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'move', temp });
+      }
+    }
+    step++
+    console.log(`${step}: insertion sort complete`)
+    allSteps.push({ boxIds: [...boxIds], step, action: 'end'});
     this.setState({
+      allSteps,
       iteration: 1,
-    });
+      currentStep: 1
+    })
   }
 
   nextBubbleStep = () => {
@@ -139,7 +217,18 @@ class Demo extends Component {
   }
 
   nextInsertionStep = () => {
-    console.log('nextInsertionStep')
+    const { currentStep, allSteps } = this.state;
+    const nextStep = currentStep + 1;    
+    if (nextStep < allSteps.length) {
+      this.setState({
+        currentStep: nextStep,
+        boxIds: allSteps[nextStep].boxIds,
+        i: allSteps[nextStep].i,
+        j: allSteps[nextStep].j,
+        action: allSteps[nextStep].action,
+        temp: allSteps[nextStep].temp
+      });
+    }
   }
 
   render() {
@@ -151,6 +240,7 @@ class Demo extends Component {
         <div className="explanation">
           {this.state.action !== '' &&
             <Explanation 
+              algorithmName={this.props.algorithmName}
               boxIds={this.state.boxIds}
               action={this.state.action}
               i={this.state.i}

@@ -2,8 +2,8 @@ import React from 'react';
 import '../styles/main.scss';
 
 function Explanation(props) {
-  const { boxIds, action, i } = props;
-  if (action === 'swap') {
+  const { boxIds, action, i , algorithmName } = props;
+  if (action === 'swap' && algorithmName === 'Bubble Sort') {
     return (
       <div className="explanation">
         <p>
@@ -11,7 +11,8 @@ function Explanation(props) {
         </p>
       </div>
     );
-  } else if (action === 'compare' && boxIds[i] < boxIds[i + 1]) {
+  } else if (action === 'compare' && boxIds[i] < boxIds[i + 1] &&
+      algorithmName === 'Bubble Sort') {
     return (
       <div className="explanation">
         <p>
@@ -20,7 +21,7 @@ function Explanation(props) {
         <p>they are in order</p>
       </div>
     );
-  } else if (action === 'compare') {
+  } else if (action === 'compare' && algorithmName === 'Bubble Sort') {
     return (
       <div className="explanation">
         <p>
@@ -29,6 +30,12 @@ function Explanation(props) {
         <p>they are out of order</p>
       </div>
     );
+  } else if (algorithmName === 'Insertion Sort') {
+    return (
+      <div className="explanation">
+        <p>insertion sort explanation</p>
+      </div>
+    )
   }
 }
 
