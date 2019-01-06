@@ -57,10 +57,17 @@ class Demo extends Component {
     }
   }
 
-  startAlgorithm = () => {
+  startBubbleSort = () => {
     this.setState({
       iteration: 1,
       action: 'compare'
+    });
+  }
+
+  startInsertionSort = () => {
+    console.log('startInsertionSort')
+    this.setState({
+      iteration: 1,
     });
   }
 
@@ -131,6 +138,10 @@ class Demo extends Component {
     return boxIds;
   }
 
+  nextInsertionStep = () => {
+    console.log('nextInsertionStep')
+  }
+
   render() {
     const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
@@ -159,8 +170,11 @@ class Demo extends Component {
         </div>
         <Buttons
           showStartButton={showStartButton}
-          startAlgorithm={this.startAlgorithm}
+          algorithmName={this.props.algorithmName}
+          startBubbleSort={this.startBubbleSort}
+          startInsertionSort={this.startInsertionSort}
           nextBubbleStep={this.nextBubbleStep}
+          nextInsertionStep={this.nextInsertionStep}
         />
       </section>
     );
