@@ -1,50 +1,92 @@
-import React from 'react';
+import React, { Component } from 'react';
 import '../styles/main.scss';
 
-function Explanation(props) {
-  // const { boxIds, action, i , algorithmName } = props;
-  let explanation = '';
-  return (
-    <div className="explanation">
-      <p>
-        <span>{explanation}</span>
-      </p>
-    </div>
-  )
-  // if (action === 'swap' && algorithmName === 'Bubble Sort') {
-  //   return (
-  //     <div className="explanation">
-  //       <p>
-  //         <span>{boxIds[i]}</span> swaps with <span>{boxIds[i + 1]}</span>
-  //       </p>
-  //     </div>
-  //   );
-  // } else if (action === 'compare' && boxIds[i] < boxIds[i + 1] &&
-  //     algorithmName === 'Bubble Sort') {
-  //   return (
-  //     <div className="explanation">
-  //       <p>
-  //         compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
-  //       </p>
-  //       <p>they are in order</p>
-  //     </div>
-  //   );
-  // } else if (action === 'compare' && algorithmName === 'Bubble Sort') {
-  //   return (
-  //     <div className="explanation">
-  //       <p>
-  //         compare <span>{boxIds[i]}</span> and <span>{boxIds[i + 1]}</span>
-  //       </p>
-  //       <p>they are out of order</p>
-  //     </div>
-  //   );
-  // } else if (algorithmName === 'Insertion Sort') {
-  //   return (
-  //     <div className="explanation">
-  //       <p>insertion sort explanation</p>
-  //     </div>
-  //   )
-  // }
+class Explanation extends Component {
+  getExplanation = () => {
+    const { boxIds, i, j, temp, animation } = this.props.step;
+    switch (animation) {
+      case 'compare':
+        return (
+          <p>compare <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span></p>
+        );
+      case 'compare-adjacent':
+        return (
+          <p>compare <span>{boxIds[j]}</span> and <span>{boxIds[i]}</span></p>
+        );
+      case 'swap':
+        return (
+          <p><span>{boxIds[i]}</span> swaps with <span>{boxIds[j]}</span></p>
+        );
+      case 'unsorted':
+        return (
+          <p>
+            <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span>
+            {' are out of order'}
+          </p>
+        );
+      case 'sorted':
+        return (
+          <p>
+            <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span>
+            {' are in the correct order'}
+          </p>
+        );
+      case 'stop-first-comparison':
+        return (
+          <p>
+            <span>{boxIds[j]}</span> and <span>{temp}</span>
+            {' are in the correct order'}
+          </p>
+        );
+      case 'stop-multiple-comparisons':
+        return (
+          <p>
+            <span>{boxIds[j]}</span> and <span>{temp}</span>
+            {' are in the correct order'}
+          </p>
+        );
+      case 'examine':
+      case 'move':
+        return (
+          <div>
+            <p>compare <span>{boxIds[i]}</span>
+              {' with the elements to its left'}</p>
+            <p>and stop at the first smaller element</p>
+          </div>
+        );
+      case 'nothing-on-left':
+      case 'less-than-all':
+        return (
+          <p>
+            there are no numbers to compare with <span>{temp}</span>
+          </p>
+        );
+      case 'compare-again':
+        return (
+          <p>compare <span>{boxIds[j]}</span> and <span>{temp}</span></p>
+        );
+      case 'greater-first-comparison':
+      case 'greater-multiple-comparisons':
+        return (
+          <p>
+            <span>{boxIds[j]}</span> is greater than <span>{temp}</span>
+          </p>
+        );
+      case 'shift':
+        return <p><span>{boxIds[j]}</span> shifts to the right</p>;
+      case 'insert':
+        return <p><span>{temp}</span> gets inserted</p>;
+      case 'end':
+        return <p>the algorithm is complete</p>;
+    }
+  }
+
+  render() {
+    const explanation = this.getExplanation();
+    return (
+      <div className="explanation">{explanation}</div>
+    );
+  }
 }
 
 export default Explanation;

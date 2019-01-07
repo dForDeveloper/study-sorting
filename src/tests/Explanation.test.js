@@ -2,14 +2,18 @@ import React from 'react';
 import Explanation from '../components/Explanation';
 import { shallow } from 'enzyme';
 
+const step = {
+  boxIds: [8, 7, 6, 5, 4, 3, 2, 1],
+  i: 0,
+  j: 1,
+  temp: 8,
+  animation: 'compare'
+};
+
 describe('Explanation', () => {
   it('should match the snapshot', () => {
     let wrapper = shallow(
-      <Explanation
-        boxIds={[1, 2, 3 , 4, 5, 6, 7, 8]}
-        action="compare"
-        i={0}
-      />
+      <Explanation step={step} />
     );
   });
 });

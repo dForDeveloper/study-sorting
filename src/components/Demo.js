@@ -96,6 +96,7 @@ class Demo extends Component {
         return ['examine', ''];
       case 'nothing-on-left':
         return ['sorted', ''];
+      case 'compare':
       case 'compare-adjacent':
         return ['examine', 'examine'];
       case 'compare-again':
@@ -121,7 +122,7 @@ class Demo extends Component {
       for(let i = 0; i < boxIds.length - iteration - 1; i++) {
         const j = i + 1;
         step++
-        allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'compare-adjacent', i, j })
+        allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'compare', i, j })
         if(boxIds[i] > boxIds[j]) {
           step++;
           allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'unsorted', i, j })
@@ -142,7 +143,7 @@ class Demo extends Component {
       currentStep: 1,
       i: 0,
       j: 1,
-      animation: 'compare-adjacent'
+      animation: 'compare'
     })
   }
 
@@ -248,21 +249,15 @@ class Demo extends Component {
   }
 
   render() {
-    const showStartButton = this.state.iteration === null ? true : false;
+    const showStartButton = this.state.allSteps.length === 0 ? true : false;
     const randomBoxes = this.getBoxes();
     const tempBox = this.getTempBox();
     return (
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
-          {this.state.animation !== '' &&
-            <Explanation 
-              algorithmName={this.props.algorithmName}
-              boxIds={this.state.boxIds}
-              animation={this.state.animation}
-              i={this.state.i}
-            />
-          }
+          {!showStartButton &&
+            <Explanation step={this.state.allSteps[this.state.currentStep]} />}
         </div>
         <div className="algorithm">
           {this.state.boxIds.includes(null) && tempBox}
