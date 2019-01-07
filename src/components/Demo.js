@@ -11,7 +11,7 @@ class Demo extends Component {
       boxIds: [],
       i: 0,
       j: 1,
-      iteration: 0,
+      iteration: null,
       action: '',
       allSteps: [],
       currentStep: null
@@ -45,7 +45,6 @@ class Demo extends Component {
 
   getTempBox = () => {
     const { temp, boxIds, i, j, action } = this.state;
-    
     return boxIds.map((num, index) => {
       let divClass = 'Box temp';
       if (action === 'insert') {
@@ -69,7 +68,7 @@ class Demo extends Component {
     let [iClass, jClass] = this.getClassNames(action, shouldSwap);
     return boxIds.map((num, index) => {
       let divClass = 'Box ';
-      if (index >= boxIds.length - iteration + 1 || action === 'end') {
+      if (index >= boxIds.length - iteration || action === 'end') {
         divClass += 'Box-final-position';
       } else if (num === null) {
         divClass = 'Box-empty'
@@ -86,16 +85,16 @@ class Demo extends Component {
 
   getClassNames = (action, shouldSwap) => {
     console.log('action', action)
-    if (action === 'swap' && shouldSwap) {
+    if (action === 'swap') {
       return ['right-swap', 'left-swap'];
-    } else if (action === 'compare' && shouldSwap) {
+    } else if (action === 'unsorted') {
       return ['unsorted', 'unsorted'];
-    } else if ((action === 'compare' && !shouldSwap) ||
+    } else if ((action === 'sorted') ||
       (action === 'stop' && this.state.i - this.state.j === 1)) {
       return ['sorted', 'sorted'];
-    } else if (action === 'examine' ||   action === 'move') {
+    } else if (action === 'examine' || action === 'move') {
       return ['examine', ''];
-    } else if (action === 'leftmost' && this.state.i === this.state.temp) {
+    } else if (action === 'leftmost' && this.state.boxIds[this.state.i] === this.state.temp) {
       return ['sorted', ''];
     } else if (action === 'stop' && this.state.i - this.state.j > 1) {
       return ['', 'sorted'];
@@ -115,16 +114,51 @@ class Demo extends Component {
   }
 
   startBubbleSort = () => {
+    const [...boxIds] = this.state.boxIds;
+    const allSteps = [];
+    let step = 0;
+    let iteration = 0;
+    console.log(`${step}: iteration = ${iteration}, algorithm start`)
+    allSteps.push({ boxIds: [...boxIds], step, iteration, action: '' })
+    for(iteration = 0; iteration < boxIds.length; iteration++) {    
+      for(let i = 0; i < boxIds.length - iteration - 1; i++) {
+        const j = i + 1;
+        step++
+        console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, compare 
+        ${boxIds[i]} and ${boxIds[j]}`);
+        allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'compareadjacent', i, j })
+        if(boxIds[i] > boxIds[j]) {
+          step++;
+          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, ${boxIds[i]} and ${boxIds[j]} are out of order`);
+          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'unsorted', i, j })
+          step++;
+          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, swap ${boxIds[i]} and ${boxIds[j]}`);
+          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'swap', i, j });
+          [boxIds[i], boxIds[j]] = [boxIds[j], boxIds[i]];
+        } else {
+          step++;
+          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, ${boxIds[i]} and ${boxIds[j]} are in order`);
+          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'sorted', i, j })
+        }
+      }    
+    }
+    step++;
+    console.log(`${step}: iteration = ${iteration}, algorithm end`);
+    allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'end' })
     this.setState({
-      iteration: 1,
-      action: 'compare'
-    });
+      allSteps,
+      iteration: 0,
+      currentStep: 1,
+      i: 0,
+      j: 1,
+      action: 'compareadjacent'
+    })
   }
 
   startInsertionSort = () => {
     const [...boxIds] = this.state.boxIds;
-    let step = 0;
     const allSteps = [];
+    let step = 0;
     allSteps.push({ boxIds: [...boxIds], step, action: '' })
     for(let i = 0; i < boxIds.length; i++) {
       let temp = boxIds[i];
@@ -182,7 +216,7 @@ class Demo extends Component {
     allSteps.push({ boxIds: [...boxIds], step, action: 'end'});
     this.setState({
       allSteps,
-      iteration: 1,
+      iteration: 0,
       currentStep: 1,
       i: 0,
       j: -1,
@@ -190,75 +224,27 @@ class Demo extends Component {
     })
   }
 
-  nextBubbleStep = () => {
-    const { i, j, iteration, boxIds, action } = this.state;
-    const n = boxIds.length - 1;
-    const shouldSwap = boxIds[i] > boxIds[i + 1];
-    if (iteration >= n && !shouldSwap) {
-      console.log('sorting complete, if 1')
-      this.setState({
-        action: '',
-        iteration: boxIds.length + 1
-      });
-    } else if (iteration >= n && action === 'swap') {
-      console.log(('else if 1'))
-      const newBoxIds = this.swapNumbers(boxIds, i);
-      this.setState({
-        action: '',
-        boxIds: newBoxIds,
-        iteration: boxIds.length + 1
-      });
-    } else if (iteration >= n && shouldSwap) {
-      console.log('else if 2')
-      this.setState({
-        action: 'swap'
-      });
-    } else if (i === n - iteration && action === 'swap') {
-      console.log('else if 3')
-      const newBoxIds = this.swapNumbers(boxIds, i);
-      this.setState({
-        iteration: iteration + 1,
-        boxIds: newBoxIds,
-        action: 'compare',
-        i: 0,
-        j: 1
-      });
-    } else if (i === n - iteration && action === 'compare' && !shouldSwap) {
-      console.log('else if 4')
-      this.setState({
-        iteration: iteration + 1,
-        action: 'compare',
-        i: 0,
-        j: 1
-      });
-    } else if (action === 'compare' && shouldSwap) {
-      console.log('else if 5')
-      this.setState({
-        action: 'swap'
-      });
-    } else if (action === 'swap') {
-      console.log('else if 6')
-      const newBoxIds = this.swapNumbers(boxIds, i);
-      this.setState({
-        action: 'compare',
-        boxIds: newBoxIds,
-        i: i + 1,
-        j: j + 1
-      });
-    } else {
-      console.log('else')
-      this.setState({
-        i: i + 1,
-        j: j + 1
-      });
-    }
-  }
-
   swapNumbers = (boxIds, i) => {
     if (boxIds[i] > boxIds[i + 1]) {
       [boxIds[i], boxIds[i + 1]] = [boxIds[i + 1], boxIds[i]]; 
     }
     return boxIds;
+  }
+
+  nextBubbleStep = () => {
+    const { currentStep, allSteps } = this.state;
+    const nextStep = currentStep + 1;
+    console.log('step:', nextStep) 
+    if (nextStep < allSteps.length) {
+      this.setState({
+        currentStep: nextStep,
+        boxIds: allSteps[nextStep].boxIds,
+        i: allSteps[nextStep].i,
+        j: allSteps[nextStep].j,
+        action: allSteps[nextStep].action,
+        iteration: allSteps[nextStep].iteration
+      });
+    }
   }
 
   nextInsertionStep = () => {
@@ -278,7 +264,7 @@ class Demo extends Component {
   }
 
   render() {
-    const showStartButton = this.state.iteration === 0 ? true : false;
+    const showStartButton = this.state.iteration === null ? true : false;
     const randomBoxes = this.getBoxes();
     const tempBox = this.getTempBox();
     return (
