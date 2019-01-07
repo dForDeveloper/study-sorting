@@ -12,7 +12,7 @@ class Demo extends Component {
       i: 0,
       j: 1,
       iteration: null,
-      action: '',
+      animation: '',
       allSteps: [],
       currentStep: null
     };
@@ -44,14 +44,14 @@ class Demo extends Component {
   }
 
   getTempBox = () => {
-    const { temp, boxIds, i, j, action } = this.state;
+    const { temp, boxIds, i, j, animation } = this.state;
     return boxIds.map((num, index) => {
       let divClass = 'Box temp';
-      if (action === 'insert') {
+      if (animation === 'insert') {
         divClass += ` insert${i - (j + 1)}`;
-      } else if (action === 'compareagain') {
+      } else if (animation === 'compare-again') {
         divClass += ' examine';
-      } else if (action === 'leftmost' || (action === 'stop' && i - j > 1)) {
+      } else if (animation === 'less-than-all' || (animation === 'stop-multiple-comparisons')) {
         divClass += ' sorted'
       }
       if (index === i) {
@@ -63,52 +63,50 @@ class Demo extends Component {
   }
 
   getBoxes = () => {
-    const { i, j, iteration, boxIds, action } = this.state;
-    const shouldSwap = boxIds[i] > boxIds[j];
-    let [iClass, jClass] = this.getClassNames(action, shouldSwap);
+    const { i, j, iteration, boxIds, animation } = this.state;
+    let [iClass, jClass] = this.getClassNames();
     return boxIds.map((num, index) => {
       let divClass = 'Box ';
-      if (index >= boxIds.length - iteration || action === 'end') {
+      if (index >= boxIds.length - iteration || animation === 'end') {
         divClass += 'Box-final-position';
       } else if (num === null) {
         divClass = 'Box-empty'
       } else if (index === i) {
-        console.log('index of i', index);
         divClass += iClass;
       } else if (index === j && num !== null) {
-        console.log('index of j', index);
         divClass += jClass;
       }
       return <Box id={num} divClass={divClass} key={num} />;
     });
   }
 
-  getClassNames = (action, shouldSwap) => {
-    console.log('action', action)
-    if (action === 'swap') {
-      return ['right-swap', 'left-swap'];
-    } else if (action === 'unsorted') {
-      return ['unsorted', 'unsorted'];
-    } else if ((action === 'sorted') ||
-      (action === 'stop' && this.state.i - this.state.j === 1)) {
-      return ['sorted', 'sorted'];
-    } else if (action === 'examine' || action === 'move') {
-      return ['examine', ''];
-    } else if (action === 'leftmost' && this.state.boxIds[this.state.i] === this.state.temp) {
-      return ['sorted', ''];
-    } else if (action === 'stop' && this.state.i - this.state.j > 1) {
-      return ['', 'sorted'];
-    } else if (action === 'compareadjacent') {
-      return ['examine', 'examine'];
-    } else if (action === 'compareagain') {
-      return ['', 'examine'];
-    } else if (action === 'greater' && this.state.i - this.state.j === 1) {
-      return ['move-up unsorted', 'unsorted'];
-    } else if (action === 'greater' && this.state.i - this.state.j > 1) {
-      return ['', 'unsorted'];
-    } else if (action === 'shift') {
-      return ['', 'shift-right'];
-    } else {
+  getClassNames = () => {
+    switch (this.state.animation) {
+      case 'swap':
+        return ['right-swap', 'left-swap'];
+      case 'unsorted':
+        return ['unsorted', 'unsorted'];
+      case 'sorted':
+      case 'stop-first-comparison':
+        return ['sorted', 'sorted'];
+      case 'stop-multiple-comparisons':
+        return ['', 'sorted'];
+      case 'examine':
+      case 'move':
+        return ['examine', ''];
+      case 'nothing-on-left':
+        return ['sorted', ''];
+      case 'compare-adjacent':
+        return ['examine', 'examine'];
+      case 'compare-again':
+        return ['', 'examine'];
+      case 'greater-first-comparison':
+        return ['move-up unsorted', 'unsorted'];
+      case 'greater-multiple-comparisons':
+        return ['', 'unsorted'];
+      case 'shift':
+        return ['', 'shift-right'];
+      default:
       return ['', ''];
     }
   }
@@ -118,40 +116,33 @@ class Demo extends Component {
     const allSteps = [];
     let step = 0;
     let iteration = 0;
-    console.log(`${step}: iteration = ${iteration}, algorithm start`)
-    allSteps.push({ boxIds: [...boxIds], step, iteration, action: '' })
+    allSteps.push({ boxIds: [...boxIds], step, iteration, animation: '' })
     for(iteration = 0; iteration < boxIds.length; iteration++) {    
       for(let i = 0; i < boxIds.length - iteration - 1; i++) {
         const j = i + 1;
         step++
-        console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, compare 
-        ${boxIds[i]} and ${boxIds[j]}`);
-        allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'compareadjacent', i, j })
+        allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'compare-adjacent', i, j })
         if(boxIds[i] > boxIds[j]) {
           step++;
-          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, ${boxIds[i]} and ${boxIds[j]} are out of order`);
-          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'unsorted', i, j })
+          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'unsorted', i, j })
           step++;
-          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, swap ${boxIds[i]} and ${boxIds[j]}`);
-          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'swap', i, j });
+          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'swap', i, j });
           [boxIds[i], boxIds[j]] = [boxIds[j], boxIds[i]];
         } else {
           step++;
-          console.log(`${step}: iteration = ${iteration}, i = ${i}, j = ${j}, ${boxIds[i]} and ${boxIds[j]} are in order`);
-          allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'sorted', i, j })
+          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'sorted', i, j })
         }
       }    
     }
     step++;
-    console.log(`${step}: iteration = ${iteration}, algorithm end`);
-    allSteps.push({ boxIds: [...boxIds], step, iteration, action: 'end' })
+    allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'end' })
     this.setState({
       allSteps,
       iteration: 0,
       currentStep: 1,
       i: 0,
       j: 1,
-      action: 'compareadjacent'
+      animation: 'compare-adjacent'
     })
   }
 
@@ -159,68 +150,61 @@ class Demo extends Component {
     const [...boxIds] = this.state.boxIds;
     const allSteps = [];
     let step = 0;
-    allSteps.push({ boxIds: [...boxIds], step, action: '' })
+    allSteps.push({ boxIds: [...boxIds], step, animation: '' })
     for(let i = 0; i < boxIds.length; i++) {
       let temp = boxIds[i];
       let j = i - 1;
       step++;
-      console.log(`${step}: examine ${boxIds[i]} and compare it with each element on its left.\nstop at the first element less than ${boxIds[i]}\n`)
-      allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'examine', temp });
+      allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'examine', temp });
       if(j === -1) {
         step++;
-        console.log(`${step}: there is nothing to the left of ${boxIds[i]}\n`)
-        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'leftmost', temp });
+        allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'nothing-on-left', temp });
       } else {
         step++
-        console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
-        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'compareadjacent', temp });
+        allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'compare-adjacent', temp });
         if(j >= 0 && boxIds[j] < temp) {
           step++
-          console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
-          allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'stop', temp });
+          allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'stop-first-comparison', temp });
         }
       }
       while(j >= 0 && boxIds[j] > temp) {
         step++;
-        console.log(`${step}: ${boxIds[j]} is greater than ${temp}\n`)
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'greater', temp });
+        if (i - j === 1) {
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'greater-first-comparison', temp });
+        } else {
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'greater-multiple-comparisons', temp });
+        }
         boxIds[j + 1] = boxIds[j];
         step++;
-        console.log(`${step}: ${boxIds[j]} shifts to the right\n`)
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds, true), step, i, j, action: 'shift', temp });
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds, true), step, i, j, animation: 'shift', temp });
         j--;
         if(j === -1) {
           step++;
-          console.log(`${step}: there is nothing to the left of ${temp}\n`)
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'leftmost', temp });
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'less-than-all', temp });
         } else {
           step++;
-          console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'compareagain', temp });
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'compare-again', temp });
           if(j >= 0 && boxIds[j] < temp) {
           step++
-          console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'stop', temp });
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'stop-multiple-comparisons', temp });
           }
         }
       }
       if(boxIds[j + 1] !== temp) {
         step++
-        console.log(`${step}: ${temp} is inserted here\n`)
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'insert', temp });
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'insert', temp });
       }
       boxIds[j + 1] = temp;
     }
     step++
-    console.log(`${step}: insertion sort complete`)
-    allSteps.push({ boxIds: [...boxIds], step, action: 'end'});
+    allSteps.push({ boxIds: [...boxIds], step, animation: 'end'});
     this.setState({
       allSteps,
       iteration: 0,
       currentStep: 1,
       i: 0,
       j: -1,
-      action: 'examine'
+      animation: 'examine'
     })
   }
 
@@ -241,7 +225,7 @@ class Demo extends Component {
         boxIds: allSteps[nextStep].boxIds,
         i: allSteps[nextStep].i,
         j: allSteps[nextStep].j,
-        action: allSteps[nextStep].action,
+        animation: allSteps[nextStep].animation,
         iteration: allSteps[nextStep].iteration
       });
     }
@@ -257,7 +241,7 @@ class Demo extends Component {
         boxIds: allSteps[nextStep].boxIds,
         i: allSteps[nextStep].i,
         j: allSteps[nextStep].j,
-        action: allSteps[nextStep].action,
+        animation: allSteps[nextStep].animation,
         temp: allSteps[nextStep].temp
       });
     }
@@ -271,11 +255,11 @@ class Demo extends Component {
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
-          {this.state.action !== '' &&
+          {this.state.animation !== '' &&
             <Explanation 
               algorithmName={this.props.algorithmName}
               boxIds={this.state.boxIds}
-              action={this.state.action}
+              animation={this.state.animation}
               i={this.state.i}
             />
           }
@@ -285,7 +269,7 @@ class Demo extends Component {
           {randomBoxes}
           {this.state.boxIds.map((num, index) => {
             let spanClass = 'algorithm--span';
-            if (this.state.action !== '' &&
+            if (this.state.animation !== '' &&
                 (index === this.state.i || index === this.state.i + 1) &&
                 this.props.algorithmName === 'Bubble Sort') {
               spanClass = 'algorithm--span-underline';
