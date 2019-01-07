@@ -28,7 +28,7 @@ function Buttons(props) {
             back
           </button>
           <button className="footer--btn" onClick={() => true}>
-            replay
+            restart
           </button>
           <button className="footer--btn" onClick={nextFunction}>
             next

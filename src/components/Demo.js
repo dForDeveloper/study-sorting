@@ -51,7 +51,7 @@ class Demo extends Component {
         divClass += ` insert${i - (j + 1)}`;
       } else if (animation === 'compare-again') {
         divClass += ' examine';
-      } else if (animation === 'less-than-all' || (animation === 'stop-multiple-comparisons')) {
+      } else if (animation === 'less-than-all' || animation === 'stop-multiple-comparisons') {
         divClass += ' sorted'
       }
       if (index === i) {
@@ -92,7 +92,6 @@ class Demo extends Component {
       case 'stop-multiple-comparisons':
         return ['', 'sorted'];
       case 'examine':
-      case 'move':
         return ['examine', ''];
       case 'nothing-on-left':
         return ['sorted', ''];
@@ -207,13 +206,6 @@ class Demo extends Component {
       j: -1,
       animation: 'examine'
     })
-  }
-
-  swapNumbers = (boxIds, i) => {
-    if (boxIds[i] > boxIds[i + 1]) {
-      [boxIds[i], boxIds[i + 1]] = [boxIds[i + 1], boxIds[i]]; 
-    }
-    return boxIds;
   }
 
   nextBubbleStep = () => {

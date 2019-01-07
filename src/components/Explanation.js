@@ -46,7 +46,6 @@ class Explanation extends Component {
           </p>
         );
       case 'examine':
-      case 'move':
         return (
           <div>
             <p>compare <span>{boxIds[i]}</span>
