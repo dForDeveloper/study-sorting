@@ -10,6 +10,7 @@ class Demo extends Component {
     this.state = {
       boxIds: [],
       i: 0,
+      j: 1,
       iteration: 0,
       action: '',
       allSteps: [],
@@ -30,42 +31,84 @@ class Demo extends Component {
     }
   }
 
-  removeDuplicateIds = (arr) => {
+  removeDuplicateIds = (arr, isShifted = false) => {
     let [...boxIds] = arr;
     for (let i = 0; i < boxIds.length - 1; i++) {
-      if (boxIds[i] === boxIds[i + 1]) {
+      if (boxIds[i] === boxIds[i + 1] && !isShifted) {
         boxIds[i] = null;
+      } else if (boxIds[i] === boxIds[i + 1] && isShifted) {
+        boxIds[i + 1] = null;
       }
     }
     return boxIds;
   }
 
+  getTempBox = () => {
+    const { temp, boxIds, i, j, action } = this.state;
+    
+    return boxIds.map((num, index) => {
+      let divClass = 'Box temp';
+      if (action === 'insert') {
+        divClass += ` insert${i - (j + 1)}`;
+      } else if (action === 'compareagain') {
+        divClass += ' examine';
+      } else if (action === 'leftmost' || (action === 'stop' && i - j > 1)) {
+        divClass += ' sorted'
+      }
+      if (index === i) {
+        return <Box id={temp} divClass={divClass} key={temp} />;
+      } else {
+        return <div key={num}></div>
+      }
+    })
+  }
+
   getBoxes = () => {
-    const { i, iteration, boxIds, action } = this.state;
-    const shouldSwap = boxIds[i] > boxIds[i + 1];
+    const { i, j, iteration, boxIds, action } = this.state;
+    const shouldSwap = boxIds[i] > boxIds[j];
     let [iClass, jClass] = this.getClassNames(action, shouldSwap);
     return boxIds.map((num, index) => {
       let divClass = 'Box ';
-      if (index >= boxIds.length - iteration + 1) {
+      if (index >= boxIds.length - iteration + 1 || action === 'end') {
         divClass += 'Box-final-position';
-      } else if (index === i) {
-        divClass += iClass;
-      } else if (index === i + 1) {
-        divClass += jClass;
       } else if (num === null) {
         divClass = 'Box-empty'
+      } else if (index === i) {
+        console.log('index of i', index);
+        divClass += iClass;
+      } else if (index === j && num !== null) {
+        console.log('index of j', index);
+        divClass += jClass;
       }
-      return <Box id={num} divClass={divClass} key={num}/>;
+      return <Box id={num} divClass={divClass} key={num} />;
     });
   }
 
   getClassNames = (action, shouldSwap) => {
+    console.log('action', action)
     if (action === 'swap' && shouldSwap) {
       return ['right-swap', 'left-swap'];
     } else if (action === 'compare' && shouldSwap) {
       return ['unsorted', 'unsorted'];
-    } else if (action === 'compare' && !shouldSwap) {
+    } else if ((action === 'compare' && !shouldSwap) ||
+      (action === 'stop' && this.state.i - this.state.j === 1)) {
       return ['sorted', 'sorted'];
+    } else if (action === 'examine' ||   action === 'move') {
+      return ['examine', ''];
+    } else if (action === 'leftmost' && this.state.i === this.state.temp) {
+      return ['sorted', ''];
+    } else if (action === 'stop' && this.state.i - this.state.j > 1) {
+      return ['', 'sorted'];
+    } else if (action === 'compareadjacent') {
+      return ['examine', 'examine'];
+    } else if (action === 'compareagain') {
+      return ['', 'examine'];
+    } else if (action === 'greater' && this.state.i - this.state.j === 1) {
+      return ['move-up unsorted', 'unsorted'];
+    } else if (action === 'greater' && this.state.i - this.state.j > 1) {
+      return ['', 'unsorted'];
+    } else if (action === 'shift') {
+      return ['', 'shift-right'];
     } else {
       return ['', ''];
     }
@@ -96,7 +139,7 @@ class Demo extends Component {
       } else {
         step++
         console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
-        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'compare', temp });
+        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'compareadjacent', temp });
         if(j >= 0 && boxIds[j] < temp) {
           step++
           console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
@@ -110,7 +153,7 @@ class Demo extends Component {
         boxIds[j + 1] = boxIds[j];
         step++;
         console.log(`${step}: ${boxIds[j]} shifts to the right\n`)
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'shift', temp });
+        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds, true), step, i, j, action: 'shift', temp });
         j--;
         if(j === -1) {
           step++;
@@ -119,7 +162,7 @@ class Demo extends Component {
         } else {
           step++;
           console.log(`${step}: compare ${boxIds[j]} and ${temp}\n`)
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'compare', temp });
+          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'compareagain', temp });
           if(j >= 0 && boxIds[j] < temp) {
           step++
           console.log(`${step}: ${boxIds[j]} is less than ${temp}. stop.\n`)
@@ -133,11 +176,6 @@ class Demo extends Component {
         allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, action: 'insert', temp });
       }
       boxIds[j + 1] = temp;
-      if(i + 1 !== boxIds.length) {
-        step++;
-        console.log(`${step}: move to the next element\n\n`)
-        allSteps.push({ boxIds: [...boxIds], step, i, j, action: 'move', temp });
-      }
     }
     step++
     console.log(`${step}: insertion sort complete`)
@@ -145,12 +183,15 @@ class Demo extends Component {
     this.setState({
       allSteps,
       iteration: 1,
-      currentStep: 1
+      currentStep: 1,
+      i: 0,
+      j: -1,
+      action: 'examine'
     })
   }
 
   nextBubbleStep = () => {
-    const { i, iteration, boxIds, action } = this.state;
+    const { i, j, iteration, boxIds, action } = this.state;
     const n = boxIds.length - 1;
     const shouldSwap = boxIds[i] > boxIds[i + 1];
     if (iteration >= n && !shouldSwap) {
@@ -179,14 +220,16 @@ class Demo extends Component {
         iteration: iteration + 1,
         boxIds: newBoxIds,
         action: 'compare',
-        i: 0
+        i: 0,
+        j: 1
       });
     } else if (i === n - iteration && action === 'compare' && !shouldSwap) {
       console.log('else if 4')
       this.setState({
         iteration: iteration + 1,
         action: 'compare',
-        i: 0
+        i: 0,
+        j: 1
       });
     } else if (action === 'compare' && shouldSwap) {
       console.log('else if 5')
@@ -199,12 +242,14 @@ class Demo extends Component {
       this.setState({
         action: 'compare',
         boxIds: newBoxIds,
-        i: i + 1
+        i: i + 1,
+        j: j + 1
       });
     } else {
       console.log('else')
       this.setState({
-        i: i + 1
+        i: i + 1,
+        j: j + 1
       });
     }
   }
@@ -218,7 +263,8 @@ class Demo extends Component {
 
   nextInsertionStep = () => {
     const { currentStep, allSteps } = this.state;
-    const nextStep = currentStep + 1;    
+    const nextStep = currentStep + 1;
+    console.log('step:', nextStep) 
     if (nextStep < allSteps.length) {
       this.setState({
         currentStep: nextStep,
@@ -234,6 +280,7 @@ class Demo extends Component {
   render() {
     const showStartButton = this.state.iteration === 0 ? true : false;
     const randomBoxes = this.getBoxes();
+    const tempBox = this.getTempBox();
     return (
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
@@ -248,11 +295,13 @@ class Demo extends Component {
           }
         </div>
         <div className="algorithm">
+          {this.state.boxIds.includes(null) && tempBox}
           {randomBoxes}
           {this.state.boxIds.map((num, index) => {
             let spanClass = 'algorithm--span';
             if (this.state.action !== '' &&
-                (index === this.state.i || index === this.state.i + 1)) {
+                (index === this.state.i || index === this.state.i + 1) &&
+                this.props.algorithmName === 'Bubble Sort') {
               spanClass = 'algorithm--span-underline';
             }
             return <span id={index} className={spanClass} key={num}></span>

@@ -4,13 +4,13 @@
     background-color: $unsorted-pink;
   }
   33% {
-    transform: translateY(-120px);
+    transform: translateY(-110px);
   }
   42% {
     background-color: $unsorted-pink;
   }
   67% {
-    transform: translate(111%, -120px);
+    transform: translate(111%, -110px);
   }
   100% {
     transform: translate(111%);
@@ -25,13 +25,13 @@
     background-color: $unsorted-pink;
   }
   33% {
-    transform: translateY(-120px);
+    transform: translateY(-110px);
   }
   42% {
     background-color: $unsorted-pink;
   }
   67% {
-    transform: translate(-111%, -120px);
+    transform: translate(-111%, -110px);
   }
   100% {
     transform: translate(-111%);
@@ -69,5 +69,106 @@
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes examine {
+  100% {
+    background-color: $compare-blue;
+  }
+}
+
+@keyframes move-up {
+  0% {
+    transform: translateY(0px);
+    background-color: $compare-blue;
+  }
+  50% {
+    background-color: $compare-blue;
+  }
+  100% {
+    transform: translateY(-110px);
+    background-color: $unsorted-pink;
+  }
+}
+
+@keyframes shift-right {
+  0% {
+    transform: translate(0);
+    background-color: $unsorted-pink;
+  }
+  100% {
+    transform: translate(111%);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert1 {
+  67% {
+    transform: translate(-111%);
+  }
+  100% {
+    transform: translate(-111%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert2 {
+  67% {
+    transform: translate(-222%);
+  }
+  100% {
+    transform: translate(-222%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert3 {
+  67% {
+    transform: translate(-333%);
+  }
+  100% {
+    transform: translate(-333%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert4 {
+  67% {
+    transform: translate(-444%);
+  }
+  100% {
+    transform: translate(-444%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert5 {
+  67% {
+    transform: translate(-555%);
+  }
+  100% {
+    transform: translate(-555%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert6 {
+  67% {
+    transform: translate(-666%);
+  }
+  100% {
+    transform: translate(-666%, 110px);
+    background-color: $sorted-green;
+  }
+}
+
+@keyframes insert7 {
+  67% {
+    transform: translate(-777%);
+  }
+  100% {
+    transform: translate(-777%, 110px);
+    background-color: $sorted-green;
   }
 }

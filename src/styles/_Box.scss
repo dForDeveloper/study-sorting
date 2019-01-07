@@ -25,7 +25,7 @@
 }
 
 .sorted {
-  animation: sorted 1s ease-out normal forwards; 
+  animation: sorted 0s ease-out normal forwards; 
 }
 
 .unsorted {
@@ -39,3 +39,52 @@
 .left-swap {
   animation: left-swap 1.2s ease-out normal forwards; 
 }
+
+.examine {
+  animation: examine .5s ease-out normal forwards;
+}
+
+.move-up {
+  animation: move-up .5s ease-out normal forwards;
+}
+
+.shift-right {
+  animation: shift-right .4s ease-out normal forwards;
+}
+
+.stop {
+  animation: move-up .4s ease-out normal reverse;
+}
+
+.temp {
+  background-color: $compare-blue;
+}
+
+.insert1{
+  animation: insert1 .8s ease-out normal forwards;
+}
+
+.insert2{
+  animation: insert2 .9s ease-out normal forwards;
+}
+
+.insert3{
+  animation: insert3 1s ease-out normal forwards;
+}
+
+.insert4{
+  animation: insert4 1.1s ease-out normal forwards;
+}
+
+.insert5{
+  animation: insert5 1.2s ease-out normal forwards;
+}
+
+.insert6{
+  animation: insert6 1.3s ease-out normal forwards;
+}
+
+.insert7{
+  animation: insert7 1.4s ease-out normal forwards;
+}
+
