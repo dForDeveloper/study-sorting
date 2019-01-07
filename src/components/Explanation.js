@@ -78,6 +78,8 @@ class Explanation extends Component {
         return <p><span>{temp}</span> gets inserted</p>;
       case 'end':
         return <p>the algorithm is complete</p>;
+      default:
+        return <p></p>
     }
   }
 
