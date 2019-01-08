@@ -47,11 +47,9 @@ class Explanation extends Component {
         );
       case 'examine':
         return (
-          <div>
-            <p>compare <span>{boxIds[i]}</span>
-              {' with the elements to its left'}</p>
-            <p>and stop at the first smaller element</p>
-          </div>
+          <p>
+            compare <span>{boxIds[i]}</span> with the elements to its left
+          </p>
         );
       case 'nothing-on-left':
       case 'less-than-all':

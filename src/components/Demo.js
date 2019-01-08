@@ -9,10 +9,6 @@ class Demo extends Component {
     super(props);
     this.state = {
       boxIds: [],
-      i: 0,
-      j: 1,
-      iteration: null,
-      animation: '',
       allSteps: [],
       currentStep: null
     };
@@ -43,29 +39,35 @@ class Demo extends Component {
     return boxIds;
   }
 
-  getTempBox = () => {
-    const { temp, boxIds, i, j, animation } = this.state;
+  getTempBox = (stepData) => {
+    const { temp, boxIds, i, j, animation } = stepData;
     return boxIds.map((num, index) => {
-      let divClass = 'Box temp';
+      let divClass = 'Box Box-temp';
       if (animation === 'insert') {
         divClass += ` insert${i - (j + 1)}`;
       } else if (animation === 'compare-again') {
         divClass += ' examine';
       } else if (animation === 'less-than-all' ||
           animation === 'stop-multiple-comparisons') {
-        divClass += ' sorted'
+        divClass += ' sorted';
       }
       if (index === i) {
         return <Box id={temp} divClass={divClass} key={temp} />;
       } else {
-        return <div key={num}></div>
+        return <div key={num}></div>;
       }
     })
   }
 
-  getBoxes = () => {
-    const { i, j, iteration, boxIds, animation } = this.state;
-    let [iClass, jClass] = this.getClassNames();
+  getInitialBoxes = () => {
+    return this.state.boxIds.map(num => {
+      return <Box id={num} divClass='Box' key={num} />
+    });
+  }
+
+  getDemoBoxes = (stepData) => {
+    const { i, j, iteration, boxIds, animation } = stepData;
+    let [iClass, jClass] = this.getClassNames(animation);
     return boxIds.map((num, index) => {
       let divClass = 'Box ';
       if (index >= boxIds.length - iteration || animation === 'end') {
@@ -74,15 +76,15 @@ class Demo extends Component {
         divClass = 'Box-empty'
       } else if (index === i) {
         divClass += iClass;
-      } else if (index === j && num !== null) {
+      } else if (index === j) {
         divClass += jClass;
       }
       return <Box id={num} divClass={divClass} key={num} />;
     });
   }
 
-  getClassNames = () => {
-    switch (this.state.animation) {
+  getClassNames = (animation) => {
+    switch (animation) {
       case 'swap':
         return ['right-swap', 'left-swap'];
       case 'unsorted':
@@ -123,11 +125,11 @@ class Demo extends Component {
       allSteps.push({ boxIds: [...boxIds], animation, step, iteration, i, j });
     }
     saveStep('');
-    for(iteration = 0; iteration < boxIds.length; iteration++) {    
-      for(i = 0; i < boxIds.length - iteration - 1; i++) {
+    for (iteration = 0; iteration < boxIds.length; iteration++) {    
+      for (i = 0; i < boxIds.length - iteration - 1; i++) {
         j = i + 1;
         saveStep('compare');
-        if(boxIds[i] > boxIds[j]) {
+        if (boxIds[i] > boxIds[j]) {
           saveStep('unsorted');
           saveStep('swap');
           [boxIds[i], boxIds[j]] = [boxIds[j], boxIds[i]];
@@ -158,15 +160,15 @@ class Demo extends Component {
       });
     }
     saveStep('');
-    for(i = 0; i < boxIds.length; i++) {
+    for (i = 0; i < boxIds.length; i++) {
       temp = boxIds[i];
       j = i - 1;
       saveStep('examine');
-      if(j === -1) {
+      if (j === -1) {
         saveStep('nothing-on-left');
       } else {
         saveStep('compare-adjacent');
-        if(j >= 0 && boxIds[j] < temp) {
+        if (j >= 0 && boxIds[j] < temp) {
           saveStep('stop-first-comparison');
         }
       }
@@ -179,11 +181,11 @@ class Demo extends Component {
         boxIds[j + 1] = boxIds[j];
         saveStep('shift');
         j--;
-        if(j === -1) {
+        if (j === -1) {
           saveStep('less-than-all');
         } else {
           saveStep('compare-again');
-          if(j >= 0 && boxIds[j] < temp) {
+          if (j >= 0 && boxIds[j] < temp) {
             saveStep('stop-multiple-comparisons');
           }
         }
@@ -198,68 +200,43 @@ class Demo extends Component {
   }
 
   startAlgorithm = () => {
-    let j, animation, allSteps;
+    let allSteps;
     if (this.props.algorithmName === 'Bubble Sort') {
       allSteps = this.getBubbleSortSteps();
-      animation = 'compare';
     } else if (this.props.algorithmName === 'Insertion Sort') {
       allSteps = this.getInsertionSortSteps();
-      animation = 'examine';
     }
-    this.setState({
-      allSteps,
-      currentStep: 1,
-      i: 0,
-      j,
-      animation,
-      iteration: 0
-    });
+    this.setState({ allSteps, currentStep: 1 });
   }
 
-  nextStep = () => {
+  goToNextStep = () => {
     const { currentStep, allSteps } = this.state;
     const nextStep = currentStep + 1;
     if (nextStep < allSteps.length) {
-      this.setState({
-        currentStep: nextStep,
-        boxIds: allSteps[nextStep].boxIds,
-        i: allSteps[nextStep].i,
-        j: allSteps[nextStep].j,
-        animation: allSteps[nextStep].animation,
-        iteration: allSteps[nextStep].iteration,
-        temp: allSteps[nextStep].temp
-      });
+      this.setState({ currentStep: nextStep });
     }
   }
 
   render() {
-    const showStartButton = this.state.allSteps.length === 0 ? true : false;
-    const randomBoxes = this.getBoxes();
-    const tempBox = this.getTempBox();
+    const { allSteps, currentStep } = this.state;
+    const demoStarted = this.state.allSteps.length > 0 ? true: false;
+    const { boxIds } = demoStarted ? allSteps[currentStep] : this.state; 
     return (
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
-          {!showStartButton &&
-            <Explanation step={this.state.allSteps[this.state.currentStep]} />}
+          {demoStarted &&
+            <Explanation step={allSteps[currentStep]} />}
         </div>
         <div className="algorithm">
-          {this.state.boxIds.includes(null) && tempBox}
-          {randomBoxes}
-          {this.state.boxIds.map((num, index) => {
-            let spanClass = 'algorithm--span';
-            if (this.state.animation !== '' &&
-                (index === this.state.i || index === this.state.i + 1) &&
-                this.props.algorithmName === 'Bubble Sort') {
-              spanClass = 'algorithm--span-underline';
-            }
-            return <span id={index} className={spanClass} key={num}></span>
-          })}
+          {boxIds.includes(null) && this.getTempBox(allSteps[currentStep])}
+          {demoStarted && this.getDemoBoxes(allSteps[currentStep])}
+          {!demoStarted && this.getInitialBoxes()}
         </div>
         <Buttons
-          showStartButton={showStartButton}
+          demoStarted={demoStarted}
           startAlgorithm={this.startAlgorithm}
-          nextStep={this.nextStep}
+          goToNextStep={this.goToNextStep}
         />
       </section>
     );

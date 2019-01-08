@@ -6,51 +6,42 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      showBubbleSort: true,
-      showInsertionSort: false
+      showBubbleSort: true
     }
   }
 
-  goToPreviousDemo = () => {
-    this.setState({
-      showBubbleSort: true,
-      showInsertionSort: false
-    });
+  goToBubbleSort = () => {
+    this.setState({ showBubbleSort: true });
   }
 
-  goToNextDemo = () => {
-    this.setState({
-      showBubbleSort: false,
-      showInsertionSort: true
-    });
+  goToInsertionSort = () => {
+    this.setState({ showBubbleSort: false });
   }
 
   render() {
     return (
       <div className="App">
         <h1 className="App--h1 fade-in">study sorting</h1>
-        <main className="main">
-          {this.state.showInsertionSort &&
-            <div
-              className="main--left-arrow"
-              onClick={this.goToPreviousDemo}
-            >
-            </div>
-          }
           {this.state.showBubbleSort &&
-            <Demo algorithmName="Bubble Sort" />
+            <main className="main">
+              <Demo algorithmName="Bubble Sort" />
+              <div
+                className="main--right-arrow"
+                onClick={this.goToInsertionSort}
+              >
+              </div>
+            </main>
           }
-          {this.state.showInsertionSort &&
-            <Demo algorithmName="Insertion Sort" />
+          {!this.state.showBubbleSort &&
+            <main className="main">
+              <div
+                className="main--left-arrow"
+                onClick={this.goToBubbleSort}
+              >
+              </div>
+              <Demo algorithmName="Insertion Sort" />
+            </main>
           }
-          {this.state.showBubbleSort &&
-            <div
-              className="main--right-arrow"
-              onClick={this.goToNextDemo}
-            >
-            </div>
-          }
-        </main>
       </div>
     );
   }

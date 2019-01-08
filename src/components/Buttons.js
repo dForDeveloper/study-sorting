@@ -4,14 +4,14 @@ import '../styles/main.scss';
 function Buttons(props) {
   return (
     <footer className="footer">
-      {props.showStartButton && 
+      {!props.demoStarted && 
         <div>
           <button className="footer--btn" onClick={props.startAlgorithm}>
             start
           </button>
         </div>
       }
-      {!props.showStartButton && 
+      {props.demoStarted && 
         <div>
           <button className="footer--btn" onClick={() => true}>
             back
@@ -19,7 +19,7 @@ function Buttons(props) {
           <button className="footer--btn" onClick={() => true}>
             restart
           </button>
-          <button className="footer--btn" onClick={props.nextStep}>
+          <button className="footer--btn" onClick={props.goToNextStep}>
             next
           </button>
         </div>

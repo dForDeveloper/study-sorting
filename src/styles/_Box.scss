@@ -24,6 +24,10 @@
   width: 90%;
 }
 
+.Box-temp {
+  background-color: $compare-blue;
+}
+
 .sorted {
   animation: sorted .5s ease-out normal forwards; 
 }
@@ -54,10 +58,6 @@
 
 .stop {
   animation: move-up .4s ease-out normal reverse;
-}
-
-.temp {
-  background-color: $compare-blue;
 }
 
 .insert1{
