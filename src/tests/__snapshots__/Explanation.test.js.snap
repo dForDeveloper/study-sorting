@@ -1,0 +1,252 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Explanation should match snapshot for "compare" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    compare 
+    <span>
+      8
+    </span>
+     and 
+    <span>
+      7
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "compare-adjacent" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    compare 
+    <span>
+      7
+    </span>
+     and 
+    <span>
+      8
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "compare-again" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    compare 
+    <span>
+      7
+    </span>
+     and 
+    <span>
+      5
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "end" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    the array is sorted
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "examine" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    compare 
+    <span>
+      8
+    </span>
+     with the elements to its left
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "greater-first-comparison" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      7
+    </span>
+     is greater than 
+    <span>
+      5
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "greater-multiple-comparisons" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      7
+    </span>
+     is greater than 
+    <span>
+      5
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "insert" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      5
+    </span>
+     gets inserted
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "less-than-all" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    there are no numbers to compare with 
+    <span>
+      5
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "nothing-on-left" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    there are no numbers to compare with 
+    <span>
+      5
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "shift" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      7
+    </span>
+     shifts to the right
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "sorted" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      8
+    </span>
+     and 
+    <span>
+      7
+    </span>
+     are in the correct order
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "stop-first-comparison" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      7
+    </span>
+     and 
+    <span>
+      5
+    </span>
+     are in the correct order
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "stop-multiple-comparisons" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      7
+    </span>
+     and 
+    <span>
+      5
+    </span>
+     are in the correct order
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "swap" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      8
+    </span>
+     swaps with 
+    <span>
+      7
+    </span>
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for "unsorted" case 1`] = `
+<div
+  className="explanation"
+>
+  <p>
+    <span>
+      8
+    </span>
+     and 
+    <span>
+      7
+    </span>
+     are out of order
+  </p>
+</div>
+`;
+
+exports[`Explanation should match snapshot for default case 1`] = `
+<div
+  className="explanation"
+>
+  <p />
+</div>
+`;

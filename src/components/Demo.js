@@ -199,6 +199,7 @@ class Demo extends Component {
     } else if (this.props.algorithmName === 'Insertion Sort') {
       allSteps = this.getInsertionSortSteps();
     }
+    console.log(JSON.stringify(allSteps));
     this.setState({ allSteps, currentStep: 1 });
   }
 
