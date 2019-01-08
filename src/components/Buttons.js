@@ -2,22 +2,11 @@ import React from 'react';
 import '../styles/main.scss';
 
 function Buttons(props) {
-  let startFunction, nextFunction;
-  switch (props.algorithmName) {
-    case 'Insertion Sort':
-      startFunction = props.startInsertionSort;
-      nextFunction = props.nextInsertionStep;
-      break;
-    default:
-      startFunction = props.startBubbleSort;
-      nextFunction = props.nextBubbleStep;
-      break;
-  }
   return (
     <footer className="footer">
       {props.showStartButton && 
         <div>
-          <button className="footer--btn" onClick={startFunction}>
+          <button className="footer--btn" onClick={props.startAlgorithm}>
             start
           </button>
         </div>
@@ -30,7 +19,7 @@ function Buttons(props) {
           <button className="footer--btn" onClick={() => true}>
             restart
           </button>
-          <button className="footer--btn" onClick={nextFunction}>
+          <button className="footer--btn" onClick={props.nextStep}>
             next
           </button>
         </div>

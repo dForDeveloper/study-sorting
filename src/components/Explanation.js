@@ -76,9 +76,9 @@ class Explanation extends Component {
       case 'insert':
         return <p><span>{temp}</span> gets inserted</p>;
       case 'end':
-        return <p>the algorithm is complete</p>;
+        return <p><span>the algorithm is complete</span></p>;
       default:
-        return <p></p>
+        return <p></p>;
     }
   }
 

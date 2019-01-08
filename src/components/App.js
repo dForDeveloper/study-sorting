@@ -11,18 +11,18 @@ class App extends Component {
     }
   }
 
-  goToLastDemo = () => {
+  goToPreviousDemo = () => {
     this.setState({
       showBubbleSort: true,
       showInsertionSort: false
-    })
+    });
   }
 
   goToNextDemo = () => {
     this.setState({
       showBubbleSort: false,
       showInsertionSort: true
-    })
+    });
   }
 
   render() {
@@ -33,19 +33,15 @@ class App extends Component {
           {this.state.showInsertionSort &&
             <div
               className="main--left-arrow"
-              onClick={this.goToLastDemo}
+              onClick={this.goToPreviousDemo}
             >
             </div>
           }
           {this.state.showBubbleSort &&
-            <Demo
-              algorithmName="Bubble Sort"
-            />
+            <Demo algorithmName="Bubble Sort" />
           }
           {this.state.showInsertionSort &&
-            <Demo
-              algorithmName="Insertion Sort"
-            />
+            <Demo algorithmName="Insertion Sort" />
           }
           {this.state.showBubbleSort &&
             <div

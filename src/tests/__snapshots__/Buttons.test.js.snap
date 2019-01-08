@@ -15,7 +15,7 @@ exports[`Buttons should match the snapshot when is showStartButton is false 1`] 
       className="footer--btn"
       onClick={[Function]}
     >
-      replay
+      restart
     </button>
     <button
       className="footer--btn"

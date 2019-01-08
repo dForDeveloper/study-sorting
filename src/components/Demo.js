@@ -31,12 +31,12 @@ class Demo extends Component {
     }
   }
 
-  removeDuplicateIds = (arr, isShifted = false) => {
+  removeDuplicateIds = (arr, animation) => {
     let [...boxIds] = arr;
     for (let i = 0; i < boxIds.length - 1; i++) {
-      if (boxIds[i] === boxIds[i + 1] && !isShifted) {
+      if (boxIds[i] === boxIds[i + 1] && animation !== 'shift') {
         boxIds[i] = null;
-      } else if (boxIds[i] === boxIds[i + 1] && isShifted) {
+      } else if (boxIds[i] === boxIds[i + 1] && animation === 'shift') {
         boxIds[i + 1] = null;
       }
     }
@@ -51,7 +51,8 @@ class Demo extends Component {
         divClass += ` insert${i - (j + 1)}`;
       } else if (animation === 'compare-again') {
         divClass += ' examine';
-      } else if (animation === 'less-than-all' || animation === 'stop-multiple-comparisons') {
+      } else if (animation === 'less-than-all' ||
+          animation === 'stop-multiple-comparisons') {
         divClass += ' sorted'
       }
       if (index === i) {
@@ -111,107 +112,113 @@ class Demo extends Component {
     }
   }
 
-  startBubbleSort = () => {
+  getBubbleSortSteps = () => {
     const [...boxIds] = this.state.boxIds;
     const allSteps = [];
-    let step = 0;
+    let step = -1;
     let iteration = 0;
-    allSteps.push({ boxIds: [...boxIds], step, iteration, animation: '' })
+    let i, j;
+    const saveStep = (animation) => {
+      step++;
+      allSteps.push({ boxIds: [...boxIds], animation, step, iteration, i, j });
+    }
+    saveStep('');
     for(iteration = 0; iteration < boxIds.length; iteration++) {    
-      for(let i = 0; i < boxIds.length - iteration - 1; i++) {
-        const j = i + 1;
-        step++
-        allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'compare', i, j })
+      for(i = 0; i < boxIds.length - iteration - 1; i++) {
+        j = i + 1;
+        saveStep('compare');
         if(boxIds[i] > boxIds[j]) {
-          step++;
-          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'unsorted', i, j })
-          step++;
-          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'swap', i, j });
+          saveStep('unsorted');
+          saveStep('swap');
           [boxIds[i], boxIds[j]] = [boxIds[j], boxIds[i]];
         } else {
-          step++;
-          allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'sorted', i, j })
+          saveStep('sorted');
         }
       }    
     }
-    step++;
-    allSteps.push({ boxIds: [...boxIds], step, iteration, animation: 'end' })
-    this.setState({
-      allSteps,
-      iteration: 0,
-      currentStep: 1,
-      i: 0,
-      j: 1,
-      animation: 'compare'
-    })
+    saveStep('end');
+    return allSteps;
   }
 
-  startInsertionSort = () => {
+  getInsertionSortSteps = () => {
     const [...boxIds] = this.state.boxIds;
     const allSteps = [];
-    let step = 0;
-    allSteps.push({ boxIds: [...boxIds], step, animation: '' })
-    for(let i = 0; i < boxIds.length; i++) {
-      let temp = boxIds[i];
-      let j = i - 1;
+    let step = -1;
+    let temp = 0;
+    let i, j;
+    const saveStep = (animation) => {
       step++;
-      allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'examine', temp });
+      allSteps.push({
+        boxIds: this.removeDuplicateIds([...boxIds], animation),
+        animation,
+        step,
+        temp,
+        i,
+        j
+      });
+    }
+    saveStep('');
+    for(i = 0; i < boxIds.length; i++) {
+      temp = boxIds[i];
+      j = i - 1;
+      saveStep('examine');
       if(j === -1) {
-        step++;
-        allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'nothing-on-left', temp });
+        saveStep('nothing-on-left');
       } else {
-        step++
-        allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'compare-adjacent', temp });
+        saveStep('compare-adjacent');
         if(j >= 0 && boxIds[j] < temp) {
-          step++
-          allSteps.push({ boxIds: [...boxIds], step, i, j, animation: 'stop-first-comparison', temp });
+          saveStep('stop-first-comparison');
         }
       }
       while(j >= 0 && boxIds[j] > temp) {
-        step++;
         if (i - j === 1) {
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'greater-first-comparison', temp });
+          saveStep('greater-first-comparison');
         } else {
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'greater-multiple-comparisons', temp });
+          saveStep('greater-multiple-comparisons');
         }
         boxIds[j + 1] = boxIds[j];
-        step++;
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds, true), step, i, j, animation: 'shift', temp });
+        saveStep('shift');
         j--;
         if(j === -1) {
-          step++;
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'less-than-all', temp });
+          saveStep('less-than-all');
         } else {
-          step++;
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'compare-again', temp });
+          saveStep('compare-again');
           if(j >= 0 && boxIds[j] < temp) {
-          step++
-          allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'stop-multiple-comparisons', temp });
+            saveStep('stop-multiple-comparisons');
           }
         }
       }
       if(boxIds[j + 1] !== temp) {
-        step++
-        allSteps.push({ boxIds: this.removeDuplicateIds(boxIds), step, i, j, animation: 'insert', temp });
+        saveStep('insert');
       }
       boxIds[j + 1] = temp;
     }
-    step++
-    allSteps.push({ boxIds: [...boxIds], step, animation: 'end'});
+    saveStep('end');
+    return allSteps;
+  }
+
+  startAlgorithm = () => {
+    let j, animation, allSteps;
+    if (this.props.algorithmName === 'Bubble Sort') {
+      allSteps = this.getBubbleSortSteps();
+      animation = 'compare';
+    } else if (this.props.algorithmName === 'Insertion Sort') {
+      allSteps = this.getInsertionSortSteps();
+      animation = 'examine';
+    }
     this.setState({
       allSteps,
-      iteration: 0,
       currentStep: 1,
       i: 0,
-      j: -1,
-      animation: 'examine'
-    })
+      j,
+      animation,
+      iteration: 0
+    });
   }
 
-  nextBubbleStep = () => {
+  nextStep = () => {
     const { currentStep, allSteps } = this.state;
     const nextStep = currentStep + 1;
-    console.log('step:', nextStep) 
     if (nextStep < allSteps.length) {
       this.setState({
         currentStep: nextStep,
@@ -219,22 +226,7 @@ class Demo extends Component {
         i: allSteps[nextStep].i,
         j: allSteps[nextStep].j,
         animation: allSteps[nextStep].animation,
-        iteration: allSteps[nextStep].iteration
-      });
-    }
-  }
-
-  nextInsertionStep = () => {
-    const { currentStep, allSteps } = this.state;
-    const nextStep = currentStep + 1;
-    console.log('step:', nextStep) 
-    if (nextStep < allSteps.length) {
-      this.setState({
-        currentStep: nextStep,
-        boxIds: allSteps[nextStep].boxIds,
-        i: allSteps[nextStep].i,
-        j: allSteps[nextStep].j,
-        animation: allSteps[nextStep].animation,
+        iteration: allSteps[nextStep].iteration,
         temp: allSteps[nextStep].temp
       });
     }
@@ -266,11 +258,8 @@ class Demo extends Component {
         </div>
         <Buttons
           showStartButton={showStartButton}
-          algorithmName={this.props.algorithmName}
-          startBubbleSort={this.startBubbleSort}
-          startInsertionSort={this.startInsertionSort}
-          nextBubbleStep={this.nextBubbleStep}
-          nextInsertionStep={this.nextInsertionStep}
+          startAlgorithm={this.startAlgorithm}
+          nextStep={this.nextStep}
         />
       </section>
     );
