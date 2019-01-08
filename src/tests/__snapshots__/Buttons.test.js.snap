@@ -4,9 +4,11 @@ exports[`Buttons should match the snapshot when is showStartButton is false 1`] 
 <footer
   className="footer"
 >
-  <div>
+  <div
+    className="btn-container"
+  >
     <button
-      className="footer--btn"
+      className="btn-start"
       onClick={[MockFunction]}
     >
       start
