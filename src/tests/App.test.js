@@ -15,7 +15,8 @@ describe('App', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  it('should match the snapshot', () => {
+  it('should match the snapshot when showBubbleSort is true', () => {
+    expect(wrapper.state()).toEqual({ showBubbleSort: true });
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -23,19 +24,26 @@ describe('App', () => {
     expect(wrapper.state()).toEqual({ showBubbleSort: true });
   });
   
-  it('it should set showBubbleSort to false when goToInsertionSort is called',
+  it('it should set showBubbleSort to false when right arrow is clicked',
   () => {
     expect(wrapper.state()).toEqual({ showBubbleSort: true });
-    wrapper.instance().goToInsertionSort();
+    wrapper.find('.main--right-arrow').simulate('click');
     expect(wrapper.state()).toEqual({ showBubbleSort: false });
   });
   
-  it('it should set showBubbleSort to true when goToBubbleSort is called',
+  it('should match the snapshot when showBubbleSort is false', () => {
+    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+    wrapper.find('.main--right-arrow').simulate('click');
+    expect(wrapper.state()).toEqual({ showBubbleSort: false });
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('it should set showBubbleSort to true when left arrow is clicked',
   () => {
     expect(wrapper.state()).toEqual({ showBubbleSort: true });
-    wrapper.instance().goToInsertionSort();
+    wrapper.find('.main--right-arrow').simulate('click');
     expect(wrapper.state()).toEqual({ showBubbleSort: false });
-    wrapper.instance().goToBubbleSort();
+    wrapper.find('.main--left-arrow').simulate('click');
     expect(wrapper.state()).toEqual({ showBubbleSort: true });
   });
 });
