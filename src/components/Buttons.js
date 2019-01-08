@@ -6,7 +6,7 @@ function Buttons(props) {
     <footer className="footer">
       {!props.demoStarted && 
         <div className="btn-container">
-          <button className="btn-start" onClick={props.startAlgorithm}>
+          <button className="btn-start" onClick={props.startDemo}>
             start
           </button>
         </div>
@@ -18,7 +18,7 @@ function Buttons(props) {
               back
             </button>
           }
-          <button className="btn-start" onClick={props.restartDemo}>
+          <button className="btn-restart" onClick={props.restartDemo}>
             restart
           </button>
           {props.currentStep !== props.lastStep &&

@@ -18,7 +18,8 @@
   grid-template-columns: repeat(5, 1fr);
 }
 
-.btn-start {
+.btn-start,
+.btn-restart {
   @extend .btn;
   grid-column: 3/4;
 }

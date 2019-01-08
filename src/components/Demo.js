@@ -192,7 +192,7 @@ class Demo extends Component {
     return allSteps;
   }
 
-  startAlgorithm = () => {
+  startDemo = () => {
     let allSteps;
     if (this.props.algorithmName === 'Bubble Sort') {
       allSteps = this.getBubbleSortSteps();
@@ -237,7 +237,7 @@ class Demo extends Component {
           demoStarted={demoStarted}
           currentStep={this.state.currentStep}
           lastStep={this.state.allSteps.length - 1}
-          startAlgorithm={this.startAlgorithm}
+          startDemo={this.startDemo}
           goToStep={this.goToStep}
           restartDemo={this.restartDemo}
         />
