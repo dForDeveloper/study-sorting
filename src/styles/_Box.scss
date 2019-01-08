@@ -88,3 +88,12 @@
   animation: insert7 1.4s ease-out normal forwards;
 }
 
+@media screen and (max-width: 420px) {
+  .Box {
+    border: 1px solid black;
+  }
+
+  .Box--id {
+    font-size: 2rem;
+  }
+}

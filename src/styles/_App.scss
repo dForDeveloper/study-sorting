@@ -4,11 +4,13 @@
 
 .App--h1 {
   font-size: 5rem;
+  margin: 50px 0;
 }
 
 .main {
   display: grid;
-  grid-template-columns: 10% 1fr 10%;
+  grid-template-columns: 10% 50px 1fr 50px 10%;
+  grid-template-rows: 1fr 50px;
 }
 
 .main--arrow {
@@ -35,5 +37,52 @@
   
   &:hover {
     background: center / contain no-repeat url('../left_arrow_hover.svg');
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .main--arrow {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  .App--h1 {
+    font-size: 4rem;
+    margin-top: 69px;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .App--h1 {
+    font-size: 3rem;
+    margin-top: 87px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main {
+    display: grid;
+    grid-template-columns: 5% 50px 1fr 50px 5%;
+  }
+
+  .main--arrow {
+    grid-row: 2/3;
+    height: 50px;
+  }
+
+  .main--left-arrow {
+    grid-column: 2/3;
+  }
+
+  .main--right-arrow {
+    grid-column: 4/5;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .App--h1 {
+    font-size: 2.7rem;
+    margin-top: 93px;
   }
 }

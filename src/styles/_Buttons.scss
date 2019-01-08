@@ -32,3 +32,47 @@
   @extend .btn;
   grid-column: 4/5;
 }
+
+@media screen and (max-width: 720px) {
+  .btn-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .btn-start,
+  .btn-restart {
+    grid-column: 2/3;
+  }
+  .btn-back {
+    grid-column: 1/2;
+  }
+
+  .btn-next {
+    grid-column: 3/4;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .btn {
+    width: 250px;
+  }
+
+  .btn-container {
+    grid-template-rows: repeat(3, 1fr);
+    grid-row-gap: 12px;
+  }
+
+  .btn-start,
+  .btn-restart {
+    grid-row: 2/3;
+    grid-column: 2/3;
+  }
+  .btn-back {
+    grid-row: 3/4;
+    grid-column: 2/3;
+  }
+
+  .btn-next {
+    grid-row: 1/2;
+    grid-column: 2/3;
+  }
+}

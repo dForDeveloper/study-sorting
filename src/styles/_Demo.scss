@@ -1,5 +1,5 @@
 .Demo {
-  grid-column: 2/3;
+  grid-column: 2/5;
   border: 2px solid black;
   border-radius: 20px;
   box-shadow: 0 0 6px 1px $dark-gray;
@@ -22,4 +22,22 @@
 
 .fade-in {
   animation: fade-in 1s ease-in-out normal forwards;
+}
+
+@media screen and (max-width: 666px) {
+  .Demo--h2 {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .Demo--h2 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Demo {
+    height: 565px;
+  }
 }
