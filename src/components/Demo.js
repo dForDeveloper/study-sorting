@@ -48,7 +48,7 @@ class Demo extends Component {
       } else if (animation === 'compare-again') {
         divClass += ' examine';
       } else if (animation === 'less-than-all' ||
-          animation === 'stop-multiple-comparisons') {
+          animation === 'stop-mult-comparisons') {
         divClass += ' sorted';
       }
       if (index === i) {
@@ -92,7 +92,7 @@ class Demo extends Component {
       case 'sorted':
       case 'stop-first-comparison':
         return ['sorted', 'sorted'];
-      case 'stop-multiple-comparisons':
+      case 'stop-mult-comparisons':
         return ['', 'sorted'];
       case 'examine':
         return ['examine', ''];
@@ -105,7 +105,7 @@ class Demo extends Component {
         return ['', 'examine'];
       case 'greater-first-comparison':
         return ['move-up unsorted', 'unsorted'];
-      case 'greater-multiple-comparisons':
+      case 'greater-mult-comparisons':
         return ['', 'unsorted'];
       case 'shift':
         return ['', 'shift-right'];
@@ -169,7 +169,7 @@ class Demo extends Component {
         if (i - j === 1) {
           saveStep('greater-first-comparison');
         } else {
-          saveStep('greater-multiple-comparisons');
+          saveStep('greater-mult-comparisons');
         }
         boxIds[j + 1] = boxIds[j];
         saveStep('shift');
@@ -179,7 +179,7 @@ class Demo extends Component {
         } else {
           saveStep('compare-again');
           if (j >= 0 && boxIds[j] < temp) {
-            saveStep('stop-multiple-comparisons');
+            saveStep('stop-mult-comparisons');
           }
         }
       }
@@ -199,7 +199,6 @@ class Demo extends Component {
     } else if (this.props.algorithmName === 'Insertion Sort') {
       allSteps = this.getInsertionSortSteps();
     }
-    console.log(JSON.stringify(allSteps));
     this.setState({ allSteps, currentStep: 1 });
   }
 

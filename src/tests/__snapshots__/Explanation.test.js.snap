@@ -91,7 +91,7 @@ exports[`Explanation should match snapshot for "greater-first-comparison" case 1
 </div>
 `;
 
-exports[`Explanation should match snapshot for "greater-multiple-comparisons" case 1`] = `
+exports[`Explanation should match snapshot for "greater-mult-comparisons" case 1`] = `
 <div
   className="explanation"
 >
@@ -193,7 +193,7 @@ exports[`Explanation should match snapshot for "stop-first-comparison" case 1`] 
 </div>
 `;
 
-exports[`Explanation should match snapshot for "stop-multiple-comparisons" case 1`] = `
+exports[`Explanation should match snapshot for "stop-mult-comparisons" case 1`] = `
 <div
   className="explanation"
 >

@@ -39,8 +39,8 @@ describe('Explanation', () => {
     step.animation = 'stop-first-comparison';
   });
 
-  it('should match snapshot for "stop-multiple-comparisons" case', () => {
-    step.animation = 'stop-multiple-comparisons';
+  it('should match snapshot for "stop-mult-comparisons" case', () => {
+    step.animation = 'stop-mult-comparisons';
   });
   it('should match snapshot for "examine" case', () => {
     step.animation = 'examine';
@@ -62,8 +62,8 @@ describe('Explanation', () => {
     step.animation = 'greater-first-comparison';
   });
 
-  it('should match snapshot for "greater-multiple-comparisons" case', () => {
-    step.animation = 'greater-multiple-comparisons';
+  it('should match snapshot for "greater-mult-comparisons" case', () => {
+    step.animation = 'greater-mult-comparisons';
   });
 
   it('should match snapshot for "shift" case', () => {

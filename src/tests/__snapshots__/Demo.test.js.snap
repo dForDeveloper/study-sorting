@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Demo should match the snapshot when allSteps.length === 0 1`] = `
+<section
+  className="Demo fade-in"
+>
+  <h2
+    className="Demo--h2"
+  >
+    Bubble Sort
+  </h2>
+  <div
+    className="explanation"
+  />
+  <div
+    className="algorithm"
+  >
+    <Box
+      divClass="Box"
+      id={5}
+      key="5"
+    />
+    <Box
+      divClass="Box"
+      id={1}
+      key="1"
+    />
+    <Box
+      divClass="Box"
+      id={4}
+      key="4"
+    />
+    <Box
+      divClass="Box"
+      id={7}
+      key="7"
+    />
+    <Box
+      divClass="Box"
+      id={3}
+      key="3"
+    />
+    <Box
+      divClass="Box"
+      id={6}
+      key="6"
+    />
+    <Box
+      divClass="Box"
+      id={8}
+      key="8"
+    />
+    <Box
+      divClass="Box"
+      id={2}
+      key="2"
+    />
+  </div>
+  <Buttons
+    currentStep={null}
+    demoStarted={false}
+    goToStep={[Function]}
+    lastStep={-1}
+    restartDemo={[Function]}
+    startDemo={[Function]}
+  />
+</section>
+`;

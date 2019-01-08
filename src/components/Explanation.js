@@ -38,7 +38,7 @@ class Explanation extends Component {
             {' are in the correct order'}
           </p>
         );
-      case 'stop-multiple-comparisons':
+      case 'stop-mult-comparisons':
         return (
           <p>
             <span>{boxIds[j]}</span> and <span>{temp}</span>
@@ -63,7 +63,7 @@ class Explanation extends Component {
           <p>compare <span>{boxIds[j]}</span> and <span>{temp}</span></p>
         );
       case 'greater-first-comparison':
-      case 'greater-multiple-comparisons':
+      case 'greater-mult-comparisons':
         return (
           <p>
             <span>{boxIds[j]}</span> is greater than <span>{temp}</span>
