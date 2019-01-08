@@ -1,9 +1,9 @@
-.footer--btn {
+.btn {
   height: 30px;
   width: 100px;
   background-color: $gray;
   border: 2px solid black;
-  margin: 0 20px;
+  margin: auto;
   border-radius: 15px;
   cursor: pointer;
   outline: none;
@@ -11,4 +11,23 @@
   &:hover {
     background-color: $dark-gray;
   }
+}
+
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.btn-start {
+  @extend .btn;
+  grid-column: 3/4;
+}
+.btn-back {
+  @extend .btn;
+  grid-column: 2/3;
+}
+
+.btn-next {
+  @extend .btn;
+  grid-column: 4/5;
 }

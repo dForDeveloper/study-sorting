@@ -117,12 +117,9 @@ class Demo extends Component {
   getBubbleSortSteps = () => {
     const [...boxIds] = this.state.boxIds;
     const allSteps = [];
-    let step = -1;
-    let iteration = 0;
-    let i, j;
+    let iteration, i, j;
     const saveStep = (animation) => {
-      step++;
-      allSteps.push({ boxIds: [...boxIds], animation, step, iteration, i, j });
+      allSteps.push({ boxIds: [...boxIds], animation, iteration, i, j });
     }
     saveStep('');
     for (iteration = 0; iteration < boxIds.length; iteration++) {    
@@ -145,15 +142,11 @@ class Demo extends Component {
   getInsertionSortSteps = () => {
     const [...boxIds] = this.state.boxIds;
     const allSteps = [];
-    let step = -1;
-    let temp = 0;
-    let i, j;
+    let temp, i, j;
     const saveStep = (animation) => {
-      step++;
       allSteps.push({
         boxIds: this.removeDuplicateIds([...boxIds], animation),
         animation,
-        step,
         temp,
         i,
         j
@@ -209,12 +202,19 @@ class Demo extends Component {
     this.setState({ allSteps, currentStep: 1 });
   }
 
-  goToNextStep = () => {
+  goToStep = (increment) => {
     const { currentStep, allSteps } = this.state;
-    const nextStep = currentStep + 1;
-    if (nextStep < allSteps.length) {
+    const nextStep = currentStep + increment;
+    if (0 < nextStep && nextStep < allSteps.length) {
       this.setState({ currentStep: nextStep });
     }
+  }
+
+  restartDemo = () => {
+    this.setState({
+      allSteps: [],
+      currentStep: null
+    })
   }
 
   render() {
@@ -235,8 +235,11 @@ class Demo extends Component {
         </div>
         <Buttons
           demoStarted={demoStarted}
+          currentStep={this.state.currentStep}
+          lastStep={this.state.allSteps.length - 1}
           startAlgorithm={this.startAlgorithm}
-          goToNextStep={this.goToNextStep}
+          goToStep={this.goToStep}
+          restartDemo={this.restartDemo}
         />
       </section>
     );
