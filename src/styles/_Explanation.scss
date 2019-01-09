@@ -10,6 +10,21 @@
       font-weight: 700;
     }
   }
+
+  .p--description {
+    width: 500px;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  .explanation {
+    .p--description {
+      width: 100%;
+      margin: auto;
+      font-size: 1.4rem;
+    }
+  }
 }
 
 @media screen and (max-width: 555px) {
@@ -25,6 +40,16 @@
     p {
       margin: 15px 0px;
       font-size: 1.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .explanation {
+    .p--description {
+      width: 100%;
+      margin: auto;
+      font-size: 1.17rem;
     }
   }
 }

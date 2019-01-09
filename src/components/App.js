@@ -30,8 +30,7 @@ class App extends Component {
                 onClick={this.goToInsertionSort}
               >
               </div>
-            </main>
-          }
+            </main>}
           {!this.state.showBubbleSort &&
             <main className="main">
               <div
@@ -40,8 +39,7 @@ class App extends Component {
               >
               </div>
               <Demo algorithmName="Insertion Sort" />
-            </main>
-          }
+            </main>}
       </div>
     );
   }

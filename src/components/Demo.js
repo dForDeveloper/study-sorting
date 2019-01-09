@@ -65,6 +65,16 @@ class Demo extends Component {
     });
   }
 
+  getDescription = (algorithmName) => {
+    if (algorithmName === 'Bubble Sort') {
+      return 'Bubble sort works by repeatedly swapping adjacent elements if ' +
+      'they are in the wrong order.';
+    } else if (algorithmName === 'Insertion Sort') {
+      return 'Insertion sort works by sorting the left side of an array one ' +
+      'element at a time.';
+    }
+  }
+
   getDemoBoxes = (stepData) => {
     const { i, j, iteration, boxIds, animation } = stepData;
     let [iClass, jClass] = this.getClassNames(animation);
@@ -225,6 +235,10 @@ class Demo extends Component {
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
+          {!demoStarted && 
+            <p className="p--description">
+              {this.getDescription(this.props.algorithmName)}
+            </p>}
           {demoStarted &&
             <Explanation step={allSteps[currentStep]} />}
         </div>

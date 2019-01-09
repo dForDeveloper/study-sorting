@@ -134,4 +134,13 @@ describe('Demo', () => {
     const allSteps = wrapper.instance().getInsertionSortSteps();
     expect(allSteps.length).toBeGreaterThan(0);
   });
+
+  it('should return a string when getDescription is called', () => {
+    const bubbleDesc = wrapper.instance().getDescription('Bubble Sort');
+    const insertionDesc = wrapper.instance().getDescription('Insertion Sort');
+    expect(bubbleDesc).toEqual('Bubble sort works by repeatedly swapping ' +
+    'adjacent elements if they are in the wrong order.');
+    expect(insertionDesc).toEqual('Insertion sort works by sorting the left ' +
+    'side of an array one element at a time.');
+  });
 });

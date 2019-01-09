@@ -11,7 +11,13 @@ exports[`Demo should match the snapshot when allSteps.length === 0 1`] = `
   </h2>
   <div
     className="explanation"
-  />
+  >
+    <p
+      className="p--description"
+    >
+      Bubble sort works by repeatedly swapping adjacent elements if they are in the wrong order.
+    </p>
+  </div>
   <div
     className="algorithm"
   >
