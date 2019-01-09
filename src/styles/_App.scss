@@ -24,19 +24,19 @@
 
 .main--right-arrow {
   @extend .main--arrow;
-  background: center / contain no-repeat url('../right_arrow.svg');
+  background: center / contain no-repeat url('../svgs/right_arrow.svg');
   
   &:hover {
-    background: center / contain no-repeat url('../right_arrow_hover.svg');
+    background: center / contain no-repeat url('../svgs/right_arrow_hover.svg');
   }
 }
 
 .main--left-arrow {
   @extend .main--arrow;
-  background: center / contain no-repeat url('../left_arrow.svg');
+  background: center / contain no-repeat url('../svgs/left_arrow.svg');
   
   &:hover {
-    background: center / contain no-repeat url('../left_arrow_hover.svg');
+    background: center / contain no-repeat url('../svgs/left_arrow_hover.svg');
   }
 }
 
