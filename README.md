@@ -12,11 +12,16 @@
   - If you want to go back to the beginning of the algorithm, click *restart*.
   
   ### As a Contributor: 
-  - Open the terminal
-  - `cd` to where you want the cloned directory to be created
-  - `git clone https://github.com/dForDeveloper/study-sorting.git`
+  - Fork the repo
+  - Open your terminal
+  - `cd` to where you want the repo directory to be created
+  - Clone your fork down to your machine either
+    - with SSH: `git clone git@github.com:`*yourusername*`/study-sorting.git`
+    - or with HTTPS: `git clone https://github.com/`*yourusername*`/study-sorting.git`
   - `cd study-sorting`
   - `npm install`
+  - `git push` any changes up to your fork
+  - Make pull requests from your fork to the original repo
 
 ## Preview of the App
 ![bubblesort](https://user-images.githubusercontent.com/41239540/50870638-16bc0400-1376-11e9-875d-46f944677f07.gif)
