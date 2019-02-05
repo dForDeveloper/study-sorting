@@ -1,54 +1,53 @@
 import React, { Component } from 'react';
-import '../styles/main.scss';
 
 class Explanation extends Component {
   getExplanation = () => {
-    const { boxIds, i, j, temp, animation } = this.props.step;
+    const { boxIDs, i, j, temp, animation } = this.props.step;
     switch (animation) {
       case 'compare':
         return (
-          <p>compare <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span></p>
+          <p>compare <span>{boxIDs[i]}</span> and <span>{boxIDs[j]}</span></p>
         );
       case 'compare-adjacent':
         return (
-          <p>compare <span>{boxIds[j]}</span> and <span>{boxIds[i]}</span></p>
+          <p>compare <span>{boxIDs[j]}</span> and <span>{boxIDs[i]}</span></p>
         );
       case 'swap':
         return (
-          <p><span>{boxIds[i]}</span> swaps with <span>{boxIds[j]}</span></p>
+          <p><span>{boxIDs[i]}</span> swaps with <span>{boxIDs[j]}</span></p>
         );
       case 'unsorted':
         return (
           <p>
-            <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span>
+            <span>{boxIDs[i]}</span> and <span>{boxIDs[j]}</span>
             {' are out of order'}
           </p>
         );
       case 'sorted':
         return (
           <p>
-            <span>{boxIds[i]}</span> and <span>{boxIds[j]}</span>
+            <span>{boxIDs[i]}</span> and <span>{boxIDs[j]}</span>
             {' are in the correct order'}
           </p>
         );
       case 'stop-first-comparison':
         return (
           <p>
-            <span>{boxIds[j]}</span> and <span>{temp}</span>
+            <span>{boxIDs[j]}</span> and <span>{temp}</span>
             {' are in the correct order'}
           </p>
         );
       case 'stop-mult-comparisons':
         return (
           <p>
-            <span>{boxIds[j]}</span> and <span>{temp}</span>
+            <span>{boxIDs[j]}</span> and <span>{temp}</span>
             {' are in the correct order'}
           </p>
         );
       case 'examine':
         return (
           <p>
-            compare <span>{boxIds[i]}</span> with the elements to its left
+            compare <span>{boxIDs[i]}</span> with the elements to its left
           </p>
         );
       case 'nothing-on-left':
@@ -60,17 +59,17 @@ class Explanation extends Component {
         );
       case 'compare-again':
         return (
-          <p>compare <span>{boxIds[j]}</span> and <span>{temp}</span></p>
+          <p>compare <span>{boxIDs[j]}</span> and <span>{temp}</span></p>
         );
       case 'greater-first-comparison':
       case 'greater-mult-comparisons':
         return (
           <p>
-            <span>{boxIds[j]}</span> is greater than <span>{temp}</span>
+            <span>{boxIDs[j]}</span> is greater than <span>{temp}</span>
           </p>
         );
       case 'shift':
-        return <p><span>{boxIds[j]}</span> shifts to the right</p>;
+        return <p><span>{boxIDs[j]}</span> shifts to the right</p>;
       case 'insert':
         return <p><span>{temp}</span> gets inserted</p>;
       case 'end':

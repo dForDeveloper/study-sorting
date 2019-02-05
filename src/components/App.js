@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
-import '../styles/main.scss';
 import Demo from './Demo.js';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      showBubbleSort: true
+      displayedAlgorithm: 'Bubble Sort'
     }
   }
 
   goToBubbleSort = () => {
-    this.setState({ showBubbleSort: true });
+    this.setState({ displayedAlgorithm: 'Bubble Sort' });
   }
 
   goToInsertionSort = () => {
-    this.setState({ showBubbleSort: false });
+    this.setState({ displayedAlgorithm: 'Insertion Sort' });
   }
 
   render() {
+    const { displayedAlgorithm } = this.state;
     return (
       <div className="App">
         <h1 className="App--h1 fade-in">study sorting</h1>
-          {this.state.showBubbleSort &&
+          {displayedAlgorithm === 'Bubble Sort' &&
             <main className="main">
               <Demo algorithmName="Bubble Sort" />
               <div
@@ -31,7 +31,7 @@ class App extends Component {
               >
               </div>
             </main>}
-          {!this.state.showBubbleSort &&
+          {displayedAlgorithm === 'Insertion Sort' &&
             <main className="main">
               <div
                 className="main--left-arrow"

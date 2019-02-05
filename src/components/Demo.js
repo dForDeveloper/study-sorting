@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import '../styles/main.scss';
 import Box from './Box';
 import Buttons from './Buttons';
 import Explanation from './Explanation';
+import algorithms from '../utils/algorithms';
 
 class Demo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      boxIds: [],
+      boxIDs: [1, 2, 3, 4, 5, 6, 7, 8],
       allSteps: [],
       currentStep: null
     };
   }
 
   componentDidMount = () => {
-    const boxIds = [1, 2, 3, 4, 5, 6, 7, 8];
-    this.fisherYatesShuffle(boxIds);
-    this.setState({ boxIds });
+    const { boxIDs } = this.state;
+    this.fisherYatesShuffle(boxIDs);
+    this.setState({ boxIDs });
   }
 
   fisherYatesShuffle = (arr) => {
@@ -27,21 +27,9 @@ class Demo extends Component {
     }
   }
 
-  removeDuplicateIds = (arr, animation) => {
-    let [...boxIds] = arr;
-    for (let i = 0; i < boxIds.length - 1; i++) {
-      if (boxIds[i] === boxIds[i + 1] && animation !== 'shift') {
-        boxIds[i] = null;
-      } else if (boxIds[i] === boxIds[i + 1] && animation === 'shift') {
-        boxIds[i + 1] = null;
-      }
-    }
-    return boxIds;
-  }
-
   getTempBox = (stepData) => {
-    const { temp, boxIds, i, j, animation } = stepData;
-    return boxIds.map((num, index) => {
+    const { temp, boxIDs, i, j, animation } = stepData;
+    return boxIDs.map((num, index) => {
       let divClass = 'Box Box-temp';
       if (animation === 'insert') {
         divClass += ` insert${i - (j + 1)}`;
@@ -60,27 +48,17 @@ class Demo extends Component {
   }
 
   getInitialBoxes = () => {
-    return this.state.boxIds.map(num => {
+    return this.state.boxIDs.map(num => {
       return <Box id={num} divClass='Box' key={num} />
     });
   }
 
-  getDescription = (algorithmName) => {
-    if (algorithmName === 'Bubble Sort') {
-      return 'Bubble sort works by repeatedly swapping adjacent elements if ' +
-      'they are in the wrong order.';
-    } else if (algorithmName === 'Insertion Sort') {
-      return 'Insertion sort works by sorting the left side of an array one ' +
-      'element at a time.';
-    }
-  }
-
   getDemoBoxes = (stepData) => {
-    const { i, j, iteration, boxIds, animation } = stepData;
+    const { i, j, iteration, boxIDs, animation } = stepData;
     let [iClass, jClass] = this.getClassNames(animation);
-    return boxIds.map((num, index) => {
+    return boxIDs.map((num, index) => {
       let divClass = 'Box ';
-      if (index >= boxIds.length - iteration || animation === 'end') {
+      if (index >= boxIDs.length - iteration || animation === 'end') {
         divClass += 'Box-final-position';
       } else if (num === null) {
         divClass = 'Box-empty'
@@ -124,91 +102,10 @@ class Demo extends Component {
     }
   }
 
-  getBubbleSortSteps = () => {
-    const [...boxIds] = this.state.boxIds;
-    const allSteps = [];
-    let iteration, i, j;
-    const saveStep = (animation) => {
-      allSteps.push({ boxIds: [...boxIds], animation, iteration, i, j });
-    }
-    saveStep('');
-    for (iteration = 0; iteration < boxIds.length; iteration++) {    
-      for (i = 0; i < boxIds.length - iteration - 1; i++) {
-        j = i + 1;
-        saveStep('compare');
-        if (boxIds[i] > boxIds[j]) {
-          saveStep('unsorted');
-          saveStep('swap');
-          [boxIds[i], boxIds[j]] = [boxIds[j], boxIds[i]];
-        } else {
-          saveStep('sorted');
-        }
-      }    
-    }
-    saveStep('end');
-    return allSteps;
-  }
-
-  getInsertionSortSteps = () => {
-    const [...boxIds] = this.state.boxIds;
-    const allSteps = [];
-    let temp, i, j;
-    const saveStep = (animation) => {
-      allSteps.push({
-        boxIds: this.removeDuplicateIds([...boxIds], animation),
-        animation,
-        temp,
-        i,
-        j
-      });
-    }
-    saveStep('');
-    for (i = 0; i < boxIds.length; i++) {
-      temp = boxIds[i];
-      j = i - 1;
-      saveStep('examine');
-      if (j === -1) {
-        saveStep('nothing-on-left');
-      } else {
-        saveStep('compare-adjacent');
-        if (j >= 0 && boxIds[j] < temp) {
-          saveStep('stop-first-comparison');
-        }
-      }
-      while(j >= 0 && boxIds[j] > temp) {
-        if (i - j === 1) {
-          saveStep('greater-first-comparison');
-        } else {
-          saveStep('greater-mult-comparisons');
-        }
-        boxIds[j + 1] = boxIds[j];
-        saveStep('shift');
-        j--;
-        if (j === -1) {
-          saveStep('less-than-all');
-        } else {
-          saveStep('compare-again');
-          if (j >= 0 && boxIds[j] < temp) {
-            saveStep('stop-mult-comparisons');
-          }
-        }
-      }
-      if(boxIds[j + 1] !== temp) {
-        saveStep('insert');
-      }
-      boxIds[j + 1] = temp;
-    }
-    saveStep('end');
-    return allSteps;
-  }
-
   startDemo = () => {
-    let allSteps;
-    if (this.props.algorithmName === 'Bubble Sort') {
-      allSteps = this.getBubbleSortSteps();
-    } else if (this.props.algorithmName === 'Insertion Sort') {
-      allSteps = this.getInsertionSortSteps();
-    }
+    const { boxIDs } = this.state;
+    const { algorithmName } = this.props;
+    let allSteps = algorithms[algorithmName].getSteps(boxIDs);
     this.setState({ allSteps, currentStep: 1 });
   }
 
@@ -229,21 +126,22 @@ class Demo extends Component {
 
   render() {
     const { allSteps, currentStep } = this.state;
+    const { algorithmName } = this.props;
     const demoStarted = this.state.allSteps.length > 0 ? true: false;
-    const { boxIds } = demoStarted ? allSteps[currentStep] : this.state; 
+    const { boxIDs } = demoStarted ? allSteps[currentStep] : this.state; 
     return (
       <section className='Demo fade-in'>
         <h2 className="Demo--h2">{this.props.algorithmName}</h2>
         <div className="explanation">
           {!demoStarted && 
             <p className="p--description">
-              {this.getDescription(this.props.algorithmName)}
+              {algorithms[algorithmName].description}
             </p>}
           {demoStarted &&
             <Explanation step={allSteps[currentStep]} />}
         </div>
         <div className="algorithm">
-          {boxIds.includes(null) && this.getTempBox(allSteps[currentStep])}
+          {boxIDs.includes(null) && this.getTempBox(allSteps[currentStep])}
           {demoStarted && this.getDemoBoxes(allSteps[currentStep])}
           {!demoStarted && this.getInitialBoxes()}
         </div>
