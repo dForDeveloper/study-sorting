@@ -1,29 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App should match the snapshot when showBubbleSort is false 1`] = `
-<div
-  className="App"
->
-  <h1
-    className="App--h1 fade-in"
-  >
-    study sorting
-  </h1>
-  <main
-    className="main"
-  >
-    <div
-      className="main--left-arrow"
-      onClick={[Function]}
-    />
-    <Demo
-      algorithmName="Insertion Sort"
-    />
-  </main>
-</div>
-`;
-
-exports[`App should match the snapshot when showBubbleSort is true 1`] = `
+exports[`App should match the snapshot when displayedAlgorithm is Bubble Sort 1`] = `
 <div
   className="App"
 >
@@ -41,6 +18,29 @@ exports[`App should match the snapshot when showBubbleSort is true 1`] = `
     <div
       className="main--right-arrow"
       onClick={[Function]}
+    />
+  </main>
+</div>
+`;
+
+exports[`App should match the snapshot when displayedAlgorithm is Insertion Sort 1`] = `
+<div
+  className="App"
+>
+  <h1
+    className="App--h1 fade-in"
+  >
+    study sorting
+  </h1>
+  <main
+    className="main"
+  >
+    <div
+      className="main--left-arrow"
+      onClick={[Function]}
+    />
+    <Demo
+      algorithmName="Insertion Sort"
     />
   </main>
 </div>

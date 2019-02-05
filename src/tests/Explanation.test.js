@@ -3,7 +3,7 @@ import Explanation from '../components/Explanation';
 import { shallow } from 'enzyme';
 
 const step = {
-  boxIds: [8, 7, 6, 5, 4, 3, 2, 1],
+  boxIDs: [8, 7, 6, 5, 4, 3, 2, 1],
   i: 0,
   j: 1,
   temp: 5,

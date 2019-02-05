@@ -15,35 +15,35 @@ describe('App', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 
-  it('should match the snapshot when showBubbleSort is true', () => {
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+  it('should match the snapshot when displayedAlgorithm is Bubble Sort', () => {
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort' });
     expect(wrapper).toMatchSnapshot();
   });
 
   it('it should have default state', () => {
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort' });
   });
   
-  it('it should set showBubbleSort to false when right arrow is clicked',
+  it('it should set displayedAlgorithm to Insertion Sort when right arrow is clicked',
   () => {
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort'  });
     wrapper.find('.main--right-arrow').simulate('click');
-    expect(wrapper.state()).toEqual({ showBubbleSort: false });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Insertion Sort' });
   });
   
-  it('should match the snapshot when showBubbleSort is false', () => {
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+  it('should match the snapshot when displayedAlgorithm is Insertion Sort', () => {
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort' });
     wrapper.find('.main--right-arrow').simulate('click');
-    expect(wrapper.state()).toEqual({ showBubbleSort: false });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Insertion Sort' });
     expect(wrapper).toMatchSnapshot();
   });
 
   it('it should set showBubbleSort to true when left arrow is clicked',
   () => {
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort' });
     wrapper.find('.main--right-arrow').simulate('click');
-    expect(wrapper.state()).toEqual({ showBubbleSort: false });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Insertion Sort' });
     wrapper.find('.main--left-arrow').simulate('click');
-    expect(wrapper.state()).toEqual({ showBubbleSort: true });
+    expect(wrapper.state()).toEqual({ displayedAlgorithm: 'Bubble Sort' });
   });
 });

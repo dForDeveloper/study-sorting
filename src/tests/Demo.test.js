@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 
 const stepData = {
   animation: 'compare',
-  boxIds: [5, 1, 4, 7, 3, 6, 8, 2],
+  boxIDs: [5, 1, 4, 7, 3, 6, 8, 2],
   i: 0,
   iteration: 0,
   j: 1
@@ -14,7 +14,7 @@ describe('Demo', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow(<Demo algorithmName='Bubble Sort' />);
-    wrapper.setState({ boxIds: [5, 1, 4, 7, 3, 6, 8, 2] });
+    wrapper.setState({ boxIDs: [5, 1, 4, 7, 3, 6, 8, 2] });
   });
 
   it('should match the snapshot when allSteps.length === 0', () => {
@@ -22,7 +22,7 @@ describe('Demo', () => {
   });
 
   it('should have default state', () => {
-    expect(wrapper.state('boxIds').length).toEqual(8);
+    expect(wrapper.state('boxIDs').length).toEqual(8);
     expect(wrapper.state('allSteps')).toEqual([]);
     expect(wrapper.state('currentStep')).toEqual(null);
   });
@@ -33,16 +33,15 @@ describe('Demo', () => {
     expect(testArray.length).toEqual(8);
   });
 
-  it('should remove duplicate IDs when removeDuplicateIds is called', () => {
-    const testArray = [1, 1, 3, 4, 5, 6, 7, 8];
-    const arr1 = wrapper.instance().removeDuplicateIds(testArray);
-    expect(arr1).toEqual([null, 1, 3, 4, 5, 6, 7, 8]);
-    const arr2 = wrapper.instance().removeDuplicateIds(testArray, 'shift');
-    expect(arr2).toEqual([1, null, 3, 4, 5, 6, 7, 8]);
-  });
+  // it('should remove duplicate IDs when removeDuplicateIds is called', () => {
+  //   const testArray = [1, 1, 3, 4, 5, 6, 7, 8];
+  //   const arr1 = wrapper.instance().removeDuplicateIds(testArray);
+  //   expect(arr1).toEqual([null, 1, 3, 4, 5, 6, 7, 8]);
+  //   const arr2 = wrapper.instance().removeDuplicateIds(testArray, 'shift');
+  //   expect(arr2).toEqual([1, null, 3, 4, 5, 6, 7, 8]);
+  // });
 
-  it(`should set allSteps and currentStep when startDemo is called
-  when the algorithm is Bubble Sort`, () => {
+  it('should set allSteps and currentStep when startDemo is called', () => {
     expect(wrapper.state('allSteps')).toEqual([]);
     expect(wrapper.state('currentStep')).toEqual(null);
     wrapper.instance().startDemo();
@@ -50,16 +49,16 @@ describe('Demo', () => {
     expect(wrapper.state('currentStep')).toEqual(1);
   });
 
-  it(`should set allSteps and currentStep when startDemo is called
-  when the algorithm is Insertion Sort`, () => {
-    wrapper = shallow(<Demo algorithmName='Insertion Sort' />);
-    wrapper.setState({ boxIds: [5, 1, 4, 7, 3, 6, 8, 2] });
-    expect(wrapper.state('allSteps')).toEqual([]);
-    expect(wrapper.state('currentStep')).toEqual(null);
-    wrapper.instance().startDemo();
-    expect(wrapper.state('allSteps').length).toBeGreaterThan(0);
-    expect(wrapper.state('currentStep')).toEqual(1);
-  });
+  // it(`should set allSteps and currentStep when startDemo is called
+  // when the algorithm is Insertion Sort`, () => {
+  //   wrapper = shallow(<Demo algorithmName='Insertion Sort' />);
+  //   wrapper.setState({ boxIDs: [5, 1, 4, 7, 3, 6, 8, 2] });
+  //   expect(wrapper.state('allSteps')).toEqual([]);
+  //   expect(wrapper.state('currentStep')).toEqual(null);
+  //   wrapper.instance().startDemo();
+  //   expect(wrapper.state('allSteps').length).toBeGreaterThan(0);
+  //   expect(wrapper.state('currentStep')).toEqual(1);
+  // });
 
   it('should set allSteps and currentStep when restartDemo is called', () => {
     wrapper.instance().startDemo();
@@ -78,7 +77,7 @@ describe('Demo', () => {
   });
 
   it('should return an array of Boxes when getInitialBoxes is called', () => {
-    expect(wrapper.state('boxIds').length).toEqual(8);
+    expect(wrapper.state('boxIDs').length).toEqual(8);
     const initialBoxes = wrapper.instance().getInitialBoxes();
     expect(initialBoxes.length).toEqual(8);
   });
@@ -124,23 +123,23 @@ describe('Demo', () => {
     expect(defaultCase).toEqual(['', '']);
   });
 
-  it('should return an array of allSteps when getBubbleSort is called', () => {
-    const allSteps = wrapper.instance().getBubbleSortSteps();
-    expect(allSteps.length).toBeGreaterThan(0);
-  });
+  // it('should return an array of allSteps when getBubbleSort is called', () => {
+  //   const allSteps = wrapper.instance().getBubbleSortSteps();
+  //   expect(allSteps.length).toBeGreaterThan(0);
+  // });
 
-  it('should return an array of allSteps when getInsertionSort is called',
-  () => {
-    const allSteps = wrapper.instance().getInsertionSortSteps();
-    expect(allSteps.length).toBeGreaterThan(0);
-  });
+  // it('should return an array of allSteps when getInsertionSort is called',
+  // () => {
+  //   const allSteps = wrapper.instance().getInsertionSortSteps();
+  //   expect(allSteps.length).toBeGreaterThan(0);
+  // });
 
-  it('should return a string when getDescription is called', () => {
-    const bubbleDesc = wrapper.instance().getDescription('Bubble Sort');
-    const insertionDesc = wrapper.instance().getDescription('Insertion Sort');
-    expect(bubbleDesc).toEqual('Bubble sort works by repeatedly swapping ' +
-    'adjacent elements if they are in the wrong order.');
-    expect(insertionDesc).toEqual('Insertion sort works by sorting the left ' +
-    'side of an array one element at a time.');
-  });
+  // it('should return a string when getDescription is called', () => {
+  //   const bubbleDesc = wrapper.instance().getDescription('Bubble Sort');
+  //   const insertionDesc = wrapper.instance().getDescription('Insertion Sort');
+  //   expect(bubbleDesc).toEqual('Bubble sort works by repeatedly swapping ' +
+  //   'adjacent elements if they are in the wrong order.');
+  //   expect(insertionDesc).toEqual('Insertion sort works by sorting the left ' +
+  //   'side of an array one element at a time.');
+  // });
 });
