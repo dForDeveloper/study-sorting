@@ -1,10 +1,10 @@
-# [study sorting](https://dfordeveloper.github.io/study-sorting/)
+# [study sorting](https://dfor.dev)
 
 **study sorting** is a React app made to help users gain a better understanding of the bubble sort and insertion sort algorithms.
 
 ## How to Use the App:
   ### As a User:
-  - Go to [the website](https://dfordeveloper.github.io/study-sorting/).
+  - Go to [the website](https://dfor.dev).
   - From there, start with bubble sort or click the arrow to check out insertion sort.
   - Click *start* to see the first step of an algorithm.
   - Click *next* to step through the animations and read the explanations of each step.
@@ -19,7 +19,7 @@
     - with SSH: `git clone git@github.com:`*yourusername*`/study-sorting.git`
     - or with HTTPS: `git clone https://github.com/`*yourusername*`/study-sorting.git`
   - `cd study-sorting`
-  - `npm install`
+  - `npm install` (using node version 14.18.1)
   - `git push` any changes up to your fork
   - Make pull requests from your fork to the original repo
 
